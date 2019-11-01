@@ -1,4 +1,4 @@
-﻿namespace AplProject
+﻿namespace Project1
 {
     partial class Form1
     {
