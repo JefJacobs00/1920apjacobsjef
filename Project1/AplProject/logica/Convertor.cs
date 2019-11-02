@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 
-namespace Project1
+namespace Project1.logica
 {
     /**
      * TODO
@@ -13,6 +14,11 @@ namespace Project1
       * BUG
       * double calculate geeft problemen 
       */
+      /*
+       * Splitsen Median cut
+       * Octree 
+       * converten pic
+       */
     class Convertor
     {
         private Bitmap bmp;
@@ -22,20 +28,21 @@ namespace Project1
             bmp = bitmap;
         }
 
-        public Dictionary<double, Bitmap> convert(int pallet, Algorythm alg)
+        public Dictionary<double, Bitmap> convert(int palletSize, Algorythm alg,ProgressBar p)
         {
             if ((alg.Equals(Algorythm.MedianCut)))
             {
                 //return pallet
-                List<Color> palette = MedianCut(bmp);
-                return ReplaceToClosest(bmp, palette);
+                List<Color> palette = MedianCut(bmp,palletSize);
+                return ReplaceToClosest(bmp, palette, p);
             }
             return null;
         }
 
-        private List<Color> MedianCut(Bitmap bitmap)
+        private List<Color> MedianCut(Bitmap bitmap,int PalletSize)
         {
             List<Color> pixelList = GetPixelList(bitmap);
+            
             //Sorting the colors
             int r = 0;
             int g = 0;
@@ -68,12 +75,11 @@ namespace Project1
                 });
             }
 
-
-
             List<Color[]> buckets = new List<Color[]>();
             List<Color[]> bucketsHelp = new List<Color[]>();
             buckets.Add(pixelList.ToArray());
-            for (int i = 0; i < 8; i++)
+            int size = (int) Math.Log(PalletSize, 2);
+            for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < buckets.Count; j++)
                 {
@@ -167,7 +173,7 @@ namespace Project1
             return palette[colorIndex];
         }
 
-        private Dictionary<double,Bitmap> ReplaceToClosest(Bitmap b, List<Color> palette)
+        private Dictionary<double,Bitmap> ReplaceToClosest(Bitmap b, List<Color> palette, ProgressBar p)
         {
             double totKleurAfstand = 0.0;
             for (int i = 0; i < b.Width; i++)
@@ -178,8 +184,9 @@ namespace Project1
                     Color p1 = ClosestColor(p2, palette);
 
                     totKleurAfstand += Math.Sqrt(Math.Pow(p1.R - p2.R, 2) + Math.Pow(p1.G - p2.G, 2) + Math.Pow(p1.B - p2.B, 2));
-
                     b.SetPixel(i, j, p1);
+                    p.PerformStep();
+
                 }
             }
             totKleurAfstand = (totKleurAfstand / (b.Width * b.Height));
@@ -189,5 +196,26 @@ namespace Project1
             return f;
 
         }
+        // Te lang in de lus
+        //private List<Color> GetColorsOutPix(List<Color> pix)
+        //{
+        //    List<Color> color = new List<Color>();
+        //    for (int i = 0; i < pix.Count; i++)
+        //    {
+        //        bool exists = false;
+        //        for (int j = 0; j < color.Count; j++)
+        //        {
+        //            if (color[j].ToArgb() == pix[i].ToArgb())
+        //            {
+        //                exists = true;
+        //            }
+        //        }
+        //        if (!exists)
+        //        {
+        //            color.Add(pix[i]);
+        //        }
+        //    }
+        //    return color;
+        //}
     }
 }

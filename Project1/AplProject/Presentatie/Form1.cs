@@ -80,14 +80,46 @@ namespace Project1
 
         private void button3_Click(object sender, EventArgs e)
         {
+            image = new Bitmap(pictureBox1.Image, new Size(pictureBox1.Width, pictureBox1.Height));
             Convertor c = new Convertor(image);
-            Dictionary<double, Bitmap> f = c.convert(256, Algorythm.MedianCut);
-            Bitmap b2 = f.Values.First();
-            label1.Text = "" + f.Keys.First();
-            this.pictureBox2.Image = b2;
+            int colorSize = 256;
+            if (R16.Checked)
+            {
+                colorSize = 16;
+            }
+            else if (R32.Checked)
+            {
+                colorSize = 32;
+            }
+            else if (R64.Checked)
+            {
+                colorSize = 64;
+            }
+            else if (R128.Checked)
+            {
+                colorSize = 128;
+            }
+            else if (R256.Checked)
+            {
+                colorSize = 256;
+            }
+            progressBar1.Value = 1;
+            progressBar1.Minimum = 1;
+            progressBar1.Maximum = pictureBox1.Width * pictureBox1.Height;
+            progressBar1.Step = 1;
             
-            label1.Text += ""; 
+            if (comboBox1.SelectedItem.ToString().Equals(Algorythm.MedianCut.ToString()))
+            {
+                Dictionary<double, Bitmap> f = c.convert(colorSize, Algorythm.MedianCut, progressBar1);
+                Bitmap b2 = f.Values.First();
+                label1.Visible = true;
+                label1.Text = "" + Math.Round(f.Keys.First(), 5);
+                this.pictureBox2.Image = b2;
+            }
+            
+            
 
         }
+
     }
 }
