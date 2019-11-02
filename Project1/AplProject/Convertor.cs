@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
-namespace AplProject
+namespace Project1
 {
-    
+    /**
+     * TODO
+     * Dithering alg
+     * quanization alg
+     */
+     /**
+      * BUG
+      * double calculate geeft problemen 
+      */
     class Convertor
     {
         private Bitmap bmp;
@@ -17,7 +22,7 @@ namespace AplProject
             bmp = bitmap;
         }
 
-        public Bitmap convert(int pallet,Algorythm alg)
+        public Dictionary<double, Bitmap> convert(int pallet, Algorythm alg)
         {
             if ((alg.Equals(Algorythm.MedianCut)))
             {
@@ -25,7 +30,7 @@ namespace AplProject
                 List<Color> palette = MedianCut(bmp);
                 return ReplaceToClosest(bmp, palette);
             }
-            return bmp;
+            return null;
         }
 
         private List<Color> MedianCut(Bitmap bitmap)
@@ -41,33 +46,34 @@ namespace AplProject
                 g += pixelList[i].G;
                 b += pixelList[i].B;
             }
-            if ((r>b) && (r>g))
+            if ((r > b) && (r > g))
             {
                 pixelList.Sort(delegate (System.Drawing.Color left, System.Drawing.Color right)
                 {
                     return right.R.CompareTo(left.R);
                 });
             }
-            else if ((g>r) && (g>b))
+            else if ((g > r) && (g > b))
             {
                 pixelList.Sort(delegate (System.Drawing.Color left, System.Drawing.Color right)
                 {
                     return right.G.CompareTo(left.G);
                 });
             }
-            else if((b>r) && (b>g)){
+            else if ((b > r) && (b > g))
+            {
                 pixelList.Sort(delegate (System.Drawing.Color left, System.Drawing.Color right)
                 {
                     return right.B.CompareTo(left.B);
                 });
             }
-            
+
 
 
             List<Color[]> buckets = new List<Color[]>();
             List<Color[]> bucketsHelp = new List<Color[]>();
             buckets.Add(pixelList.ToArray());
-            for (int i = 0; i < 8; i++) 
+            for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < buckets.Count; j++)
                 {
@@ -93,7 +99,7 @@ namespace AplProject
             return pallet;
         }
 
-        private List<Color> GetPixelList(Bitmap bmp) 
+        private List<Color> GetPixelList(Bitmap bmp)
         {
             List<Color> pixelList = new List<Color>();
             for (int i = 0; i < bmp.Width; i++)
@@ -117,9 +123,9 @@ namespace AplProject
                 {
                     arr1[i] = c[i];
                 }
-                else if(i > (c.Length / 2))
+                else if (i > (c.Length / 2))
                 {
-                    arr2[i-(c.Length/2)-1] = c[i];
+                    arr2[i - (c.Length / 2) - 1] = c[i];
                 }
             }
             split.Add(arr1);
@@ -139,18 +145,18 @@ namespace AplProject
                 g += Math.Pow(c[i].G, 2);
                 b += Math.Pow(c[i].B, 2);
             }
-            
-            return Color.FromArgb(255, (int) Math.Sqrt(r / c.Length), (int)Math.Sqrt(g / c.Length), (int)Math.Sqrt(b / c.Length) );
+
+            return Color.FromArgb(255, (int)Math.Sqrt(r / c.Length), (int)Math.Sqrt(g / c.Length), (int)Math.Sqrt(b / c.Length));
         }
 
-        private Color ClosestColor(Color c,List<Color> palette)
+        private Color ClosestColor(Color c, List<Color> palette)
         {
             int colorIndex = -1;
             double kleinsteKleurAfstand = int.MaxValue;
             for (int i = 0; i < palette.Count; i++)
             {
-                
-                double kleurAfstand = Math.Sqrt(Math.Pow( palette[i].R - c.R, 2) + Math.Pow(palette[i].G - c.G, 2) + Math.Pow(palette[i].B - c.B, 2));
+
+                double kleurAfstand = Math.Sqrt(Math.Pow(palette[i].R - c.R, 2) + Math.Pow(palette[i].G - c.G, 2) + Math.Pow(palette[i].B - c.B, 2));
                 if (kleinsteKleurAfstand > kleurAfstand)
                 {
                     colorIndex = i;
@@ -158,20 +164,30 @@ namespace AplProject
                 }
             }
 
-            return palette[colorIndex]; 
+            return palette[colorIndex];
         }
 
-        private Bitmap ReplaceToClosest(Bitmap b , List<Color> palette)
+        private Dictionary<double,Bitmap> ReplaceToClosest(Bitmap b, List<Color> palette)
         {
+            double totKleurAfstand = 0.0;
             for (int i = 0; i < b.Width; i++)
             {
                 for (int j = 0; j < b.Height; j++)
                 {
-                    b.SetPixel(i, j, ClosestColor(b.GetPixel(i, j), palette));
+                    Color p2 = b.GetPixel(i, j);
+                    Color p1 = ClosestColor(p2, palette);
+
+                    totKleurAfstand += Math.Sqrt(Math.Pow(p1.R - p2.R, 2) + Math.Pow(p1.G - p2.G, 2) + Math.Pow(p1.B - p2.B, 2));
+
+                    b.SetPixel(i, j, p1);
                 }
             }
-            return b;
-            
+            totKleurAfstand = (totKleurAfstand / (b.Width * b.Height));
+
+            Dictionary<double, Bitmap> f = new Dictionary<double, Bitmap>();
+            f.Add(totKleurAfstand, b);
+            return f;
+
         }
     }
 }

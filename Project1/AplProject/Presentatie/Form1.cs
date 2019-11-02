@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Project1.logica;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,9 +12,15 @@ using System.Windows.Forms;
 
 namespace Project1
 {
+    /*
+     * Toevoegen gemiddelde Euclidische kleurafstand
+     * kleurpallet naast elkaar
+     * kleur histogram
+     * interactieve instellingen
+     */
     public partial class Form1 : Form
     {
-        private Bitmap imgage;
+        private Bitmap image;
         public Form1()
         {
             InitializeComponent();
@@ -30,9 +38,9 @@ namespace Project1
             {
                 string file = openFileDialog1.FileName;
                 Image img = Image.FromFile(file);
-                imgage = new Bitmap(img, new Size(pictureBox1.Width, pictureBox1.Height));
+                image = new Bitmap(img, new Size(pictureBox1.Width, pictureBox1.Height));
 
-                pictureBox1.Image = imgage;
+                pictureBox1.Image = image;
                 
             }
 
@@ -52,15 +60,15 @@ namespace Project1
             switch (saveFileDialog1.FilterIndex)
             {
                 case 1:
-                    imgage.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    image.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
                     break;
 
                 case 2:
-                    imgage.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                    image.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
                     break;
 
                 case 3:
-                    imgage.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Gif);
+                    image.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Gif);
                     break;
             }
         }
@@ -72,8 +80,13 @@ namespace Project1
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Convertor c = new Convertor(imgage);
-            this.pictureBox2.Image = c.convert(256, Algorythm.MedianCut);
+            Convertor c = new Convertor(image);
+            Dictionary<double, Bitmap> f = c.convert(256, Algorythm.MedianCut);
+            Bitmap b2 = f.Values.First();
+            label1.Text = "" + f.Keys.First();
+            this.pictureBox2.Image = b2;
+            
+            label1.Text += ""; 
 
         }
     }
