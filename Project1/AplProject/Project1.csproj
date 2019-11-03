@@ -47,8 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorythm.cs" />
+    <Compile Include="logica\VisualColorPallet.cs" />
     <Compile Include="logica\Convertor.cs" />
-    <Compile Include="logica\Octree.cs" />
+    <Compile Include="logica\Kmeans.cs" />
+    <Compile Include="logica\MedianCut.cs" />
     <Compile Include="presentatie\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

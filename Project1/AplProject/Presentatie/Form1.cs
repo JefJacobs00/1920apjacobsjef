@@ -1,13 +1,8 @@
 ﻿
 using Project1.logica;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Project1
@@ -21,9 +16,13 @@ namespace Project1
     public partial class Form1 : Form
     {
         private Bitmap image;
+        private MedianCut c;
+        private Kmeans k;
         public Form1()
         {
             InitializeComponent();
+            this.comboBox1.SelectedIndex = 0;
+            this.label5.Text = "" + 1;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -41,7 +40,7 @@ namespace Project1
                 image = new Bitmap(img, new Size(pictureBox1.Width, pictureBox1.Height));
 
                 pictureBox1.Image = image;
-                
+
             }
 
 
@@ -49,14 +48,18 @@ namespace Project1
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             //TODO toevoegen van beveiling
             saveFileDialog1.ShowDialog();
-            
+            if (saveFileDialog1.FileName != null)
+            {
+                return;
+            }
+
             switch (saveFileDialog1.FilterIndex)
             {
                 case 1:
@@ -81,7 +84,66 @@ namespace Project1
         private void button3_Click(object sender, EventArgs e)
         {
             image = new Bitmap(pictureBox1.Image, new Size(pictureBox1.Width, pictureBox1.Height));
-            Convertor c = new Convertor(image);
+
+
+            int colorSize = GetSelectedSize();
+
+            progressBar2.Value = 1;
+            progressBar2.Minimum = 1;
+            progressBar2.Maximum = pictureBox1.Width * pictureBox1.Height;
+            progressBar2.Step = 1;
+
+            var result = (image, -1.0);
+            if (comboBox1.SelectedItem.ToString().Equals(Algorythm.MedianCut.ToString()))
+            {
+                c = new MedianCut(image);
+                result = c.convert(colorSize, progressBar2);
+                Bitmap b2 = result.Item1;
+                this.pictureBox3.Image = c.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, 1);
+            }
+            else if (comboBox1.SelectedItem.ToString().Equals(Algorythm.Kmeans.ToString()))
+            {
+                k = new Kmeans(image);
+                result = k.convert(progressBar2, colorSize);
+                this.pictureBox3.Image = k.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, 1);
+            }
+
+            if (result.Item2 != -1.0)
+            {
+                label1.Visible = true;
+                label1.Text = "" + Math.Round(result.Item2, 5);
+                this.pictureBox2.Image = result.Item1;
+                this.label5.Visible = true;
+            }
+
+
+
+
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            int page = int.Parse(this.label5.Text);
+            this.label5.Text = "" + (page + 1);
+
+            if ((GetSelectedSize() / 32) < (page + 1))
+            {
+                this.label5.Text = "" + 1;
+            }
+
+            if (comboBox1.SelectedItem.ToString().Equals(Algorythm.MedianCut.ToString()))
+            {
+                this.pictureBox3.Image = c.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, ((int.Parse(this.label5.Text))));
+            }
+            else if (comboBox1.SelectedItem.ToString().Equals(Algorythm.Kmeans.ToString()))
+            {
+                this.pictureBox3.Image = k.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, ((int.Parse(this.label5.Text))));
+            }
+        }
+
+        private int GetSelectedSize()
+        {
             int colorSize = 256;
             if (R16.Checked)
             {
@@ -103,23 +165,7 @@ namespace Project1
             {
                 colorSize = 256;
             }
-            progressBar1.Value = 1;
-            progressBar1.Minimum = 1;
-            progressBar1.Maximum = pictureBox1.Width * pictureBox1.Height;
-            progressBar1.Step = 1;
-            
-            if (comboBox1.SelectedItem.ToString().Equals(Algorythm.MedianCut.ToString()))
-            {
-                Dictionary<double, Bitmap> f = c.convert(colorSize, Algorythm.MedianCut, progressBar1);
-                Bitmap b2 = f.Values.First();
-                label1.Visible = true;
-                label1.Text = "" + Math.Round(f.Keys.First(), 5);
-                this.pictureBox2.Image = b2;
-            }
-            
-            
-
+            return colorSize;
         }
-
     }
 }

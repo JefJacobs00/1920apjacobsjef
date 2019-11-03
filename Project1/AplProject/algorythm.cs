@@ -1,4 +1,4 @@
 ﻿namespace Project1
 {
-    enum Algorythm { MedianCut };
+    enum Algorythm { MedianCut , Kmeans};
 }
