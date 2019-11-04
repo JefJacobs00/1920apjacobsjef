@@ -24,193 +24,230 @@ namespace Project1.logica
         {
             VisualColorPallet visual = new VisualColorPallet(pallet);
             return visual.CreatePalletBitmap(x, y, page);
-            //Bitmap b = new Bitmap(x, y);
-            //if (pallet.Count <= 64)
-            //{
-            //    for (int i = 0; i < pallet.Count; i++)
-            //    {
-            //        for (int j = 1; j < y / pallet.Count; j++)
-            //        {
-            //            for (int k = 0; k < x; k++)
-            //            {
-            //                if (j + (i * ((y / pallet.Count))) >= y)
-            //                {
-            //                    break;
-            //                }
-            //                b.SetPixel(k, j + (i * ((y / pallet.Count))), pallet[i]);
-            //            }
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    int teller = 0;
-            //    for (int i = 0; i < pallet.Count; i++)
-            //    {
-            //        if ((i % 2) == 0)
-            //        {
-            //            for (int j = 1; j < (y / (pallet.Count/2)); j++)
-            //            {
-            //                for (int k = 0; k < x / 2; k++)
-            //                {
-            //                    if (j + (i / 2 * ((y / (pallet.Count / 2)))) >= y)
-            //                    {
-            //                        break;
-            //                    }
-            //                    b.SetPixel(k, j + (i / 2 * ((y / (pallet.Count / 2)))), pallet[i]);
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            for (int j = 1; j < y / (pallet.Count / 2); j++)
-            //            {
-            //                for (int k = x/2+1; k < x ; k++)
-            //                {
-            //                    if (j + (i/2 * ((y / (pallet.Count / 2)))) >= y)
-            //                    {
-            //                        break;
-            //                    }
-            //                    b.SetPixel(k, j + (i/2 * ((y / (pallet.Count / 2)))), pallet[i]);
-            //                }
-            //            }
-                       
-            //        }
-
-            //    }
-            //}
-
-            //return b;
         }
 
         private List<Color> CreatePallet(Bitmap bitmap, int PalletSize)
         {
             List<Color> pixelList = GetPixelList(bitmap);
-            //Sorting the colors
-            //int rGroot = int.MinValue;
-            //int rKlein = int.MaxValue;
 
-            //int gGroot = int.MinValue;
-            //int gKlein = int.MaxValue;
+            pixelList = orderByGreatestRange(pixelList);
 
-            //int bGroot = int.MinValue;
-            //int bKlein = int.MaxValue;
+            List<List<Color>> buckets = new List<List<Color>>();
+            buckets.Add(pixelList);
+            do
+            {
+                List<Color> colorGR = (findGreatestRange(buckets));
+                var itemsCut = Cut(colorGR);
+                buckets.Add(itemsCut.Item1);
+                buckets.Add(itemsCut.Item2);
+                buckets.Remove(colorGR);
+            } while (buckets.Count < 256);
 
-            //for (int i = 0; i < pixelList.Count; i++)
+            List<Color> pallet = new List<Color>();
+            for (int i = 0; i < buckets.Count; i++)
+            {
+                pallet.Add(BerekenGemiddelde(buckets[i]));
+            }
+
+            return pallet;
+            
+
+            // TOT HIER
+            //List<List<Color>> bucketsHelp = new List<List<Color>>();
+            //buckets.Add(pixelList.ToArray());
+            //int size = (int)Math.Log(PalletSize, 2);
+            //for (int i = 0; i < size; i++)
             //{
-            //    if (pixelList[i].R > rGroot)
+            //    for (int j = 0; j < buckets.Count; j++)
             //    {
-            //        rGroot = pixelList[i].R ;
-            //    }
-            //    else if(pixelList[i].R < rKlein)
-            //    {
-            //        rKlein = pixelList[i].R; 
+            //        List<Color[]> c = Cut(buckets[j]);
+            //        bucketsHelp.Add(c[0]);
+            //        bucketsHelp.Add(c[1]);
             //    }
 
-            //    if (pixelList[i].G > rGroot)
+            //    buckets.Clear();
+            //    for (int j = 0; j < bucketsHelp.Count; j++)
             //    {
-            //        gGroot = pixelList[i].G;
+            //        buckets.Add(bucketsHelp[j]);
             //    }
-            //    else if (pixelList[i].G < rKlein)
-            //    {
-            //        gKlein = pixelList[i].G;
-            //    }
-
-            //    if (pixelList[i].B > rGroot)
-            //    {
-            //        bGroot = pixelList[i].B;
-            //    }
-            //    else if (pixelList[i].B < rKlein)
-            //    {
-            //        bKlein = pixelList[i].B;
-            //    }
+            //    bucketsHelp.Clear();
             //}
 
-            //if (((rGroot - rKlein) > (bGroot - bKlein)) && ((rGroot - rKlein) > (gGroot - gKlein)))
-            //{
-            //    pixelList.Sort(delegate (System.Drawing.Color left, System.Drawing.Color right)
-            //    {
-            //        return right.R.CompareTo(left.R);
-            //    });
-            //}
-            //else if (((rGroot - rKlein) < (gGroot - gKlein)) && ((gGroot - gKlein) > (bGroot - bKlein)))
-            //{
-            //    pixelList.Sort(delegate (System.Drawing.Color left, System.Drawing.Color right)
-            //    {
-            //        return right.G.CompareTo(left.G);
-            //    });
-            //}
-            //else
-            //{
-            //    pixelList.Sort(delegate (System.Drawing.Color left, System.Drawing.Color right)
-            //    {
-            //        return right.B.CompareTo(left.B);
-            //    });
-            //}
+            ////https://sighack.com/post/averaging-rgb-colors-the-right-way
+            //List<Color> pallet = new List<Color>();
 
-            int r = 0;
-            int g = 0;
-            int b = 0;
+            //for (int i = 0; i < buckets.Count; i++)
+            //{
+            //    pallet.Add(BerekenGemiddelde(buckets[i]));
+
+            //}
+        }
+
+        private List<Color> findGreatestRange(List<List<Color>> buckets)
+        {
+            
+            int indexGR = -1;
+            int rangeAmount = 0;
+            for (int i = 0; i < buckets.Count; i++)
+            {
+                var range = GetRange(buckets[i], "R");
+                int[] rangeR = new int[2] { range.Item1, range.Item2 };
+                range = GetRange(buckets[i], "G");
+                int[] rangeG = new int[2] { range.Item1, range.Item2 };
+                range = GetRange(buckets[i], "B");
+                int[] rangeB = new int[2] { range.Item1, range.Item2 };
+
+                if (rangeAmount < (rangeR[0] - rangeR[1]))
+                {
+                    rangeAmount = rangeR[0] - rangeR[1];
+                    indexGR = i;
+                }
+                if (rangeAmount < (rangeG[0] - rangeG[1]))
+                {
+                    rangeAmount = rangeG[0] - rangeG[1];
+                    indexGR = i;
+                }
+                if (rangeAmount < (rangeB[0] - rangeB[1]))
+                {
+                    rangeAmount = rangeB[0] - rangeB[1];
+                    indexGR = i;
+                }
+
+            }
+
+            if ((indexGR >= 0) && (buckets[indexGR].Count > 2))
+            {
+                return buckets[indexGR];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private (int,int) GetRange(List<Color> c,string color)
+        {
+            if (!(c.Count > 2))
+            {
+                return (0, 0);
+            }
+            switch(color){
+                case "R":
+                    int rG = 0;
+                    int rL = 256;
+                    for (int i = 0; i < c.Count; i++)
+                    {
+                        if (c[i].R > rG)
+                        {
+                            rG = c[i].R;
+                        }
+                        else if(c[i].R < rL)
+                        {
+                            rL = c[i].R;
+                        }
+                    }
+                    return (rG, rL);
+                case "G":
+                    int gG = 0;
+                    int gL = 256;
+                    for (int i = 0; i < c.Count; i++)
+                    {
+                        if (c[i].G > gG)
+                        {
+                            gG = c[i].G;
+                        }
+                        else if (c[i].G < gL)
+                        {
+                            gL = c[i].G;
+                        }
+                    }
+                    return (gG, gL);
+                case "B":
+                    int bG = 0;
+                    int bL = 256;
+                    for (int i = 0; i < c.Count; i++)
+                    {
+                        if (c[i].B > bG)
+                        {
+                            bG = c[i].B;
+                        }
+                        else if (c[i].B < bL)
+                        {
+                            bL = c[i].B;
+                        }
+                    }
+                    return (bG, bL);
+                default:
+                    return (0, 0);
+
+
+            }
+            
+        }
+
+        private List<Color> orderByGreatestRange(List<Color> pixelList)
+        {
+            int rGroot = int.MinValue;
+            int rKlein = int.MaxValue;
+
+            int gGroot = int.MinValue;
+            int gKlein = int.MaxValue;
+
+            int bGroot = int.MinValue;
+            int bKlein = int.MaxValue;
 
             for (int i = 0; i < pixelList.Count; i++)
             {
-                r += pixelList[i].R;
-                g += pixelList[i].G;
-                b += pixelList[i].B;
+                if (pixelList[i].R > rGroot)
+                {
+                    rGroot = pixelList[i].R;
+                }
+                if (pixelList[i].R < rKlein)
+                {
+                    rKlein = pixelList[i].R;
+                }
+
+                if (pixelList[i].G > gGroot)
+                {
+                    gGroot = pixelList[i].G;
+                }
+                if (pixelList[i].G < gKlein)
+                {
+                    gKlein = pixelList[i].G;
+                }
+
+                if (pixelList[i].B > bGroot)
+                {
+                    bGroot = pixelList[i].B;
+                }
+                if (pixelList[i].B < bKlein)
+                {
+                    bKlein = pixelList[i].B;
+                }
             }
 
-            if ((r > b) && (r > g))
+            if (((rGroot - rKlein) > (bGroot - bKlein)) && ((rGroot - rKlein) > (gGroot - gKlein)))
             {
                 pixelList.Sort(delegate (System.Drawing.Color left, System.Drawing.Color right)
                 {
                     return right.R.CompareTo(left.R);
                 });
             }
-            else if ((g > r) && (g > b))
+            else if (((rGroot - rKlein) < (gGroot - gKlein)) && ((gGroot - gKlein) > (bGroot - bKlein)))
             {
                 pixelList.Sort(delegate (System.Drawing.Color left, System.Drawing.Color right)
                 {
                     return right.G.CompareTo(left.G);
                 });
             }
-            else if ((b > r) && (b > g))
+            else
             {
                 pixelList.Sort(delegate (System.Drawing.Color left, System.Drawing.Color right)
                 {
                     return right.B.CompareTo(left.B);
                 });
             }
-
-            List<Color[]> buckets = new List<Color[]>();
-            List<Color[]> bucketsHelp = new List<Color[]>();
-            buckets.Add(pixelList.ToArray());
-            int size = (int)Math.Log(PalletSize, 2);
-            for (int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < buckets.Count; j++)
-                {
-                    List<Color[]> c = Cut(buckets[j]);
-                    bucketsHelp.Add(c[0]);
-                    bucketsHelp.Add(c[1]);
-                }
-
-                buckets.Clear();
-                for (int j = 0; j < bucketsHelp.Count; j++)
-                {
-                    buckets.Add(bucketsHelp[j]);
-                }
-                bucketsHelp.Clear();
-            }
-
-            //https://sighack.com/post/averaging-rgb-colors-the-right-way
-            List<Color> pallet = new List<Color>();
-
-            for (int i = 0; i < buckets.Count; i++)
-            {
-                pallet.Add(BerekenGemiddelde(buckets[i]));
-
-            }
-            return pallet;
+            return pixelList;
         }
 
         private List<Color> GetPixelList(Bitmap bmp)
@@ -226,41 +263,41 @@ namespace Project1.logica
             return pixelList;
         }
 
-        private List<Color[]> Cut(Color[] c)
+        private (List<Color>, List<Color>) Cut(List<Color> c) 
         {
-            List<Color[]> split = new List<Color[]>();
-            Color[] arr1 = new Color[c.Length / 2];
-            Color[] arr2 = new Color[c.Length / 2];
-            for (int i = 0; i < c.Length; i++)
+            c = orderByGreatestRange(c);
+
+            List<Color> list1 = new List<Color>();
+            List<Color> list2 = new List<Color>();
+            for (int i = 0; i < c.Count; i++)
             {
-                if (i < (c.Length / 2))
+                if (i < (c.Count / 2))
                 {
-                    arr1[i] = c[i];
+                    list1.Add(c[i]);
                 }
-                else if (i > (c.Length / 2))
+                else if (i > (c.Count / 2))
                 {
-                    arr2[i - (c.Length / 2) - 1] = c[i];
+                    list2.Add(c[i]);
                 }
             }
-            split.Add(arr1);
-            split.Add(arr2);
-            return split;
+
+            return (list1, list2);
         }
 
-        private Color BerekenGemiddelde(Color[] c)
+        private Color BerekenGemiddelde(List<Color> c)
         {
             double r = 0;
             double g = 0;
             double b = 0;
 
-            for (int i = 0; i < c.Length; i++)
+            for (int i = 0; i < c.Count; i++)
             {
                 r += c[i].R;
                 g += c[i].G;
                 b += c[i].B;
 
             }
-            return Color.FromArgb(255, (int)(r / c.Length), (int)(g / c.Length), (int)(b / c.Length));
+            return Color.FromArgb(255, (int)(r / c.Count), (int)(g / c.Count), (int)(b / c.Count));
         }
 
 
