@@ -8,6 +8,10 @@ namespace Project1.logica
 {
     class Kmeans
     {
+        /*
+         * (aan passen hoe K wordt gekozen)
+         * Verander zodat de punten een min afstaand van de anderen moeten hebben
+         */
         Bitmap bitmap;
         List<Color> pallet;
         public Kmeans(Bitmap bitmap)
@@ -17,8 +21,8 @@ namespace Project1.logica
 
         public (Bitmap, double) convert(ProgressBar progressAfbeelding, int palletSize)
         {
-            Dictionary<Color, int> colors = GetMostUsedColors(GetPixels(bitmap));
-            pallet = CreatePallet(colors, palletSize);
+            List<Color> colors = GetPixels(bitmap);
+            pallet = CreatePallet(colors, palletSize,10);
             
             
             return Convertor.ReplaceToClosest(bitmap, pallet, progressAfbeelding);
@@ -46,59 +50,118 @@ namespace Project1.logica
             return pixelList;
         }
 
-        private Dictionary<Color, int> GetMostUsedColors(List<Color> c)
-        {
-            Dictionary<Color, int> colors = new Dictionary<Color, int>();
+        //private Dictionary<Color, int> GetMostUsedColors(List<Color> c)
+        //{
+        //    Dictionary<Color, int> colors = new Dictionary<Color, int>();
 
             
-            for (int i = 0; i < c.Count; i++)
-            {
+        //    for (int i = 0; i < c.Count; i++)
+        //    {
 
-                if (colors.ContainsKey(c[i]))
-                {
-                    colors[c[i]]++;
-                }
-                else
-                {
-                    colors.Add(c[i], 0);
-                }
+        //        if (colors.ContainsKey(c[i]))
+        //        {
+        //            colors[c[i]]++;
+        //        }
+        //        else
+        //        {
+        //            colors.Add(c[i], 0);
+        //        }
                 
+        //    }
+        //    //https://stackoverflow.com/questions/289/how-do-you-sort-a-dictionary-by-value
+        //    var sorted = colors.OrderByDescending(x => x.Value);
+        //    colors = sorted.ToDictionary(x => x.Key, x => x.Value);
+        //    return colors;
+        //}
+
+        private List<Color> CreatePallet(List<Color> colors, int palletSize,int k)
+        {
+
+            List<Color> bestePallet = new List<Color>();
+            double besteAfstand = double.MaxValue;
+            for (int i = 0; i < k; i++)
+            {
+                List<Color> ks = getKs(colors, palletSize);
+                List<Color> prevClusterMeans = ks;
+                List<Color> clusterMeans = CreateClusters(ks, colors);
+                do
+                {
+                    prevClusterMeans = clusterMeans;
+                    clusterMeans = CreateClusters(prevClusterMeans, colors);
+                } while (clusterMeans.Equals(prevClusterMeans));
+
+                Dictionary<Color, Color> clusterDictionary = new Dictionary<Color, Color>();
+                for (int j = 0; j < clusterMeans.Count; j++)
+                {
+                    clusterDictionary.Add(clusterMeans[j], clusterMeans[j]);
+                }
+                double afstand = berekenGemAfstand(colors, clusterDictionary);
+                if (afstand < besteAfstand)
+                {
+                    besteAfstand = afstand;
+                    bestePallet = clusterMeans;
+                }
             }
-            //https://stackoverflow.com/questions/289/how-do-you-sort-a-dictionary-by-value
-            var sorted = colors.OrderByDescending(x => x.Value);
-            colors = sorted.ToDictionary(x => x.Key, x => x.Value);
-            return colors;
+            
+
+            return bestePallet;
+
+
         }
 
-        private List<Color> CreatePallet(Dictionary<Color, int> colors, int palletSize)
+        private List<Color> CreateClusters(List<Color> ks, List<Color> colors)
         {
-            List<Color> colorList = colors.Keys.ToList();
-            List<Color> pallet = new List<Color>();
-
             Dictionary<Color, List<Color>> cluster = new Dictionary<Color, List<Color>>();
-            
-            for (int i = 0; i <= (palletSize - 1); i++)
+            for (int i = 0; i < ks.Count; i++)
             {
-                cluster.Add(colorList[i], new List<Color>());
-
-
+                cluster.Add(ks[i], new List<Color>());
             }
+            for (int i = 0; i < colors.Count; i++)
+            {
+                Color closestDataPoint = ClosestColor(colors[i], ks);
+                cluster[closestDataPoint].Add(colors[i]);
+            }
+            List<Color> clusterMeans = new List<Color>();
             List<Color> keys = cluster.Keys.ToList();
-
-
-            for (int i = 0; i < colorList.Count; i++)
-            {
-                Color closestDataPoint = ClosestColor(colorList[i], keys);
-                cluster[closestDataPoint].Add(colorList[i]);
-            }
-
+            
             for (int i = 0; i < cluster.Count; i++)
             {
-                pallet.Add(ClusterToAvg(cluster[keys[i]]));
-                
-
+                clusterMeans.Add(ClusterToAvg(cluster[keys[i]]));
             }
-            return pallet;
+            return clusterMeans;
+        }
+
+        private double berekenGemAfstand(List<Color> originalPixels,Dictionary<Color,Color> pallet)
+        {
+            List<Color> palletList = pallet.Keys.ToList();
+            double totaalAfstand = 0;
+            for (int i = 0; i < originalPixels.Count; i++)
+            {
+                Color closestDataPoint = ClosestColor(originalPixels[i], palletList);
+                Color palletColor = pallet[closestDataPoint];
+                totaalAfstand += Math.Sqrt(Math.Pow(originalPixels[i].R - palletColor.R, 2) + Math.Pow(originalPixels[i].G - palletColor.G, 2) + Math.Pow(originalPixels[i].B - palletColor.B, 2));
+            }
+
+            return totaalAfstand / originalPixels.Count;
+            
+            
+        }
+
+        private List<Color> getKs(List<Color> colors,int k)
+        {
+            Random r = new Random();
+            List<Color> ks = new List<Color>();
+
+            do
+            {
+                int random = r.Next(0, colors.Count);
+                if (!ks.Contains(colors[random]))
+                {
+                    ks.Add(colors[random]);
+                }
+            } while ((ks.Count < 256));
+            return ks;
+            
         }
         private Color ClusterToAvg(List<Color> colors)
         {
