@@ -19,13 +19,15 @@ namespace Project1.logica
             this.bitmap = bitmap;
         }
 
-        public (Bitmap, double) convert(ProgressBar progressAfbeelding, int palletSize)
+        public (Bitmap, double) convert(ProgressBar progressAfbeelding, bool dithering , int palletSize,int k,Label l)
         {
+
             List<Color> colors = GetPixels(bitmap);
-            pallet = CreatePallet(colors, palletSize,10);
-            
-            
-            return Convertor.ReplaceToClosest(bitmap, pallet, progressAfbeelding);
+            l.Text = "Creating color palette using K-means method";
+            pallet = CreatePallet(colors, palletSize,k,progressAfbeelding);
+
+            l.Text = "Converting pixels of the picture";
+            return Convertor.ReplaceToClosest(bitmap, pallet, dithering , progressAfbeelding);
         }
         public Bitmap CreatePalletMap(int x, int y, int page)
         {
@@ -74,7 +76,7 @@ namespace Project1.logica
         //    return colors;
         //}
 
-        private List<Color> CreatePallet(List<Color> colors, int palletSize,int k)
+        private List<Color> CreatePallet(List<Color> colors, int palletSize,int k, ProgressBar p)
         {
 
             List<Color> bestePallet = new List<Color>();
@@ -83,11 +85,13 @@ namespace Project1.logica
             {
                 List<Color> ks = getKs(colors, palletSize);
                 List<Color> prevClusterMeans = ks;
-                List<Color> clusterMeans = CreateClusters(ks, colors);
+                List<Color> clusterMeans = CreateClusters(ks, colors,p);
+                p.Maximum = 1;
+                p.Value = 1;
                 do
                 {
                     prevClusterMeans = clusterMeans;
-                    clusterMeans = CreateClusters(prevClusterMeans, colors);
+                    clusterMeans = CreateClusters(prevClusterMeans, colors,p);
                 } while (clusterMeans.Equals(prevClusterMeans));
 
                 Dictionary<Color, Color> clusterDictionary = new Dictionary<Color, Color>();
@@ -101,6 +105,9 @@ namespace Project1.logica
                     besteAfstand = afstand;
                     bestePallet = clusterMeans;
                 }
+
+                p.Maximum = 1;
+                p.Value = 1;
             }
             
 
@@ -109,17 +116,27 @@ namespace Project1.logica
 
         }
 
-        private List<Color> CreateClusters(List<Color> ks, List<Color> colors)
+        private List<Color> CreateClusters(List<Color> ks, List<Color> colors, ProgressBar p)
         {
             Dictionary<Color, List<Color>> cluster = new Dictionary<Color, List<Color>>();
             for (int i = 0; i < ks.Count; i++)
             {
-                cluster.Add(ks[i], new List<Color>());
+                try
+                {
+                    cluster.Add(ks[i], new List<Color>());
+                }
+                catch (Exception)
+                {
+                }
+                
             }
+            p.Maximum = colors.Count();
+            p.Value = 1;
             for (int i = 0; i < colors.Count; i++)
             {
                 Color closestDataPoint = ClosestColor(colors[i], ks);
                 cluster[closestDataPoint].Add(colors[i]);
+                p.PerformStep();
             }
             List<Color> clusterMeans = new List<Color>();
             List<Color> keys = cluster.Keys.ToList();
@@ -151,15 +168,27 @@ namespace Project1.logica
         {
             Random r = new Random();
             List<Color> ks = new List<Color>();
+            Dictionary<Color, bool> test = new Dictionary<Color, bool>();
+
+            for (int i = 0; i < colors.Count; i++)
+            {
+                if (!test.ContainsKey(colors[i]))
+                {
+                    test.Add(colors[i], true);
+                }
+                
+            }
+
+            colors = test.Keys.ToList();
 
             do
             {
                 int random = r.Next(0, colors.Count);
-                if (!ks.Contains(colors[random]))
-                {
+                //if (!(ks.Contains(colors[random])))
+                //{
                     ks.Add(colors[random]);
-                }
-            } while ((ks.Count < 256));
+                //}
+            } while ((ks.Count < k));
             return ks;
             
         }

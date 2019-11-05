@@ -51,9 +51,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -83,7 +86,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(383, 928);
+            this.button2.Location = new System.Drawing.Point(383, 907);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(106, 34);
             this.button2.TabIndex = 2;
@@ -99,7 +102,7 @@
             // pictureBox2
             // 
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Location = new System.Drawing.Point(29, 572);
+            this.pictureBox2.Location = new System.Drawing.Point(29, 551);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(460, 331);
             this.pictureBox2.TabIndex = 3;
@@ -107,7 +110,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(383, 516);
+            this.button3.Location = new System.Drawing.Point(383, 495);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(106, 34);
             this.button3.TabIndex = 4;
@@ -128,7 +131,7 @@
             // R16
             // 
             this.R16.AutoSize = true;
-            this.R16.Location = new System.Drawing.Point(31, 533);
+            this.R16.Location = new System.Drawing.Point(31, 512);
             this.R16.Name = "R16";
             this.R16.Size = new System.Drawing.Size(37, 17);
             this.R16.TabIndex = 7;
@@ -138,7 +141,7 @@
             // R32
             // 
             this.R32.AutoSize = true;
-            this.R32.Location = new System.Drawing.Point(74, 533);
+            this.R32.Location = new System.Drawing.Point(74, 512);
             this.R32.Name = "R32";
             this.R32.Size = new System.Drawing.Size(37, 17);
             this.R32.TabIndex = 8;
@@ -148,7 +151,7 @@
             // R64
             // 
             this.R64.AutoSize = true;
-            this.R64.Location = new System.Drawing.Point(117, 533);
+            this.R64.Location = new System.Drawing.Point(117, 512);
             this.R64.Name = "R64";
             this.R64.Size = new System.Drawing.Size(37, 17);
             this.R64.TabIndex = 9;
@@ -158,7 +161,7 @@
             // R128
             // 
             this.R128.AutoSize = true;
-            this.R128.Location = new System.Drawing.Point(160, 533);
+            this.R128.Location = new System.Drawing.Point(160, 512);
             this.R128.Name = "R128";
             this.R128.Size = new System.Drawing.Size(43, 17);
             this.R128.TabIndex = 10;
@@ -169,7 +172,7 @@
             // 
             this.R256.AutoSize = true;
             this.R256.Checked = true;
-            this.R256.Location = new System.Drawing.Point(209, 533);
+            this.R256.Location = new System.Drawing.Point(209, 512);
             this.R256.Name = "R256";
             this.R256.Size = new System.Drawing.Size(43, 17);
             this.R256.TabIndex = 11;
@@ -201,6 +204,7 @@
             this.progressBar2.Name = "progressBar2";
             this.progressBar2.Size = new System.Drawing.Size(274, 23);
             this.progressBar2.TabIndex = 16;
+            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
             // 
             // pictureBox3
             // 
@@ -216,10 +220,11 @@
             this.comboBox1.Items.AddRange(new object[] {
             Project1.Algorythm.MedianCut,
             Project1.Algorythm.Kmeans});
-            this.comboBox1.Location = new System.Drawing.Point(29, 492);
+            this.comboBox1.Location = new System.Drawing.Point(29, 471);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 6;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -250,11 +255,34 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(271, 512);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(66, 17);
+            this.checkBox1.TabIndex = 21;
+            this.checkBox1.Text = "dithering";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(178, 461);
+            this.trackBar1.Minimum = 1;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(159, 45);
+            this.trackBar1.TabIndex = 22;
+            this.trackBar1.TabStop = false;
+            this.trackBar1.Value = 1;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(922, 982);
+            this.Controls.Add(this.trackBar1);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
@@ -279,6 +307,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -314,6 +343,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.TrackBar trackBar1;
     }
 }
 

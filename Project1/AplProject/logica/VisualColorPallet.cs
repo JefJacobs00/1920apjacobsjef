@@ -35,7 +35,7 @@ namespace Project1.logica
                 {
                     colorsPerPage.Add(pallet[i]); 
                 }
-                SetPixels(b, x, y, x, amountPerPage, colorsPerPage);
+                SetPixels(b, x, y, x, y / amountPerPage, colorsPerPage);
             }
 
             return b;

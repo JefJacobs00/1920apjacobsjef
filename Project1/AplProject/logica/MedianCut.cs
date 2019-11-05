@@ -14,10 +14,11 @@ namespace Project1.logica
             bmp = bitmap;
         }
 
-        public (Bitmap, double) convert(int palletSize, ProgressBar p)
+        public (Bitmap, double) convert(int palletSize, bool dithering , ProgressBar p,Label l)
         {
-            this.pallet = CreatePallet(bmp, palletSize);
-            return Convertor.ReplaceToClosest(bmp, pallet, p);
+            this.pallet = CreatePallet(bmp, palletSize,p);
+            l.Text = "Converting pixels of the picture";
+            return Convertor.ReplaceToClosest(bmp, pallet, dithering , p);
         }
 
         public Bitmap CreatePalletMap(int x, int y,int page)
@@ -26,7 +27,7 @@ namespace Project1.logica
             return visual.CreatePalletBitmap(x, y, page);
         }
 
-        private List<Color> CreatePallet(Bitmap bitmap, int PalletSize)
+        private List<Color> CreatePallet(Bitmap bitmap, int PalletSize, ProgressBar p)
         {
             List<Color> pixelList = GetPixelList(bitmap);
 
@@ -34,6 +35,8 @@ namespace Project1.logica
 
             List<List<Color>> buckets = new List<List<Color>>();
             buckets.Add(pixelList);
+            p.Maximum = PalletSize;
+            p.Value = 1;
             do
             {
                 List<Color> colorGR = (findGreatestRange(buckets));
@@ -41,7 +44,8 @@ namespace Project1.logica
                 buckets.Add(itemsCut.Item1);
                 buckets.Add(itemsCut.Item2);
                 buckets.Remove(colorGR);
-            } while (buckets.Count < 256);
+                p.PerformStep();
+            } while (buckets.Count < PalletSize);
 
             List<Color> pallet = new List<Color>();
             for (int i = 0; i < buckets.Count; i++)

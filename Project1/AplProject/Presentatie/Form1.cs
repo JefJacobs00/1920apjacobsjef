@@ -83,6 +83,10 @@ namespace Project1
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (pictureBox1.Image == null)
+            {
+                return;
+            }
             image = new Bitmap(pictureBox1.Image, new Size(pictureBox1.Width, pictureBox1.Height));
 
 
@@ -97,14 +101,15 @@ namespace Project1
             if (comboBox1.SelectedItem.ToString().Equals(Algorythm.MedianCut.ToString()))
             {
                 c = new MedianCut(image);
-                result = c.convert(colorSize, progressBar2);
+                label4.Text = "Creating color palette using median cut method";
+                result = c.convert(colorSize, checkBox1.Checked , progressBar2, label4);
                 Bitmap b2 = result.Item1;
                 this.pictureBox3.Image = c.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, 1);
             }
             else if (comboBox1.SelectedItem.ToString().Equals(Algorythm.Kmeans.ToString()))
             {
                 k = new Kmeans(image);
-                result = k.convert(progressBar2, colorSize);
+                result = k.convert(progressBar2, checkBox1.Checked, colorSize, trackBar1.Value , label4);
                 this.pictureBox3.Image = k.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, 1);
             }
 
@@ -166,6 +171,27 @@ namespace Project1
                 colorSize = 256;
             }
             return colorSize;
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem.Equals(Algorythm.Kmeans.ToString()))
+            {
+                trackBar1.Visible = true;
+            }
+            else
+            {
+                trackBar1.Visible = true;
+            }
+        }
+
+        private void progressBar2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
