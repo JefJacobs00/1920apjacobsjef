@@ -58,7 +58,6 @@ dan ga je nog is alle kleuren na en plaats  ze in de dichtste cluster, doe dit t
  
 Aangezien de initieele clusters random zijn hebben we niet altijd het beste resultaat daarom kunnen we deze stappen herhalen tot we een goed genoeg resultaat krijgen.
 
-![Sample Video](https://youtu.be/4b5d3muPQmA)
 # Opbouw code
 
 # experimentatie
