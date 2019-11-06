@@ -1,3 +1,4 @@
+# 1920APJacobsJef
 # inleiding
 De bedoeling van dit project is om de colors van een afbeelding te verminderen (Color depth reduction) aan de hand van color quantization.
 Er zijn meerdere color quantization algoritmes. Voor dit project maak ik gebruik van 2 algoritmes: median cut en k-means.
@@ -10,18 +11,44 @@ Hiervoor worden algoritmes gebruikt.
 
 #Median cut
 Het median cut algoritme is uitgevonden door Paul Heckbert in 1979. 
-
+En is een van de meest populaire algoritmes.
 ####Werking
 Eerst bepaal je het kleur met de grootste range. <br>
+Voorbeeld
 
+| R         |    G     |    B    |
+|-----------|----------|--------:|
+| 53 - 171  | 20 - 230 | 0 - 255 |
+
+In dit geval heet blauw de grootste range. <br> 
+
+Nu wat we weten welk kleur de grootste range heeft kunnen we onze kleuren gaan sorteren op dat kleur in dit geval blauw. <br>
+
+Als dit gebeurd is gaan we de kleuren splitsen op de mediaan. 
+Dus alle kleuren boven de mediaan gaan appart in een 'bucket' en alle kleuren onder de mediaan gaan appart in een 'bucket'. 
+
+Als dit gebeurt is dan hebben we 2 buckets. Maar aangezien we meer kleuren nodig hebben moeten we dit nog een paar keer doen.<br>
+We kijken naar de 2 buckets en we vergelijken welke bucket de grootste color range heeft.
+
+|           | R         |    G     |    B    |
+|-----------|-----------|----------|--------:|
+|Bucket 1    | 53 - 171  | 20 - 230 | 0 - 135 |
+|Bucket 2    | 65 - 171  | 60 - 220 | 0 - 255 |
+
+Hier in dit geval heeft het kleur blauw de grootste color range in bucket 2. <br>
+Dus splitsen we bucket 2 op de mediaan met als gevolg hebben we 3 buckets. Als we dit blijven doen tot we 256 buckets hebben dan hebben we bijna een goed color palette.
+in de 256 buckets zitten meerdere kleuren dus moeten we het gemiddelde van deze kleuren nemen. 
+
+Met als gevolg hebben we een kleur palette gemaakt van 256 kleuren. 
+
+####Voordelen
++ Het maken van een color palette is redelijk snel
++ Consequent resultaat
++ redelijk goed resultaat
 
 #Opbouw code
 
 #experimentatie
 
 #conclusie
-| header 1 | header 2 | header 3 |
-| ---      |  ------  |---------:|
-| cell 1   | cell 2   | cell 3   |
-| cell 4 | cell 5 is longer | cell 6 is much longer than the others, but that's ok. It will eventually wrap the text when the cell is too large for the display size. |
-| cell 7   |          | cell <br> 9 |
+
