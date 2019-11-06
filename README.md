@@ -42,11 +42,11 @@ in de 256 buckets zitten meerdere kleuren dus moeten we het gemiddelde van deze 
 
 Met als gevolg hebben we een kleur palette gemaakt van 256 kleuren. 
 
-#### Voordelen
+#### voordelen
 + Het maken van een color palette is redelijk snel
 + Consequent resultaat
-+ redelijk goed resultaat
-
+#### nadelen
+- Resultaat niet ideaal
 # K-means
 Het k-means clustering algoritme werkt door alle kleuren in clusters te verdelen en daaruit dan een color palette maken.
 #### Werking
@@ -58,7 +58,76 @@ dan ga je nog is alle kleuren na en plaats  ze in de dichtste cluster, doe dit t
  
 Aangezien de initieele clusters random zijn hebben we niet altijd het beste resultaat daarom kunnen we deze stappen herhalen tot we een goed genoeg resultaat krijgen.
 
+#### voordelen
++ Goed resultaat
++ Hoe meer run hoe beter het resultaat
+#### nadelen
+- resultaat is niet Consequent
+- meer runs zorgt voor een langere tijd
 # Opbouw code
+De code is opgebouwd uit 3 hoofd delen.
+1. De winform
+2. De algoritmes
+3. Convertie pixels
+### 1. winform
+De winform is de userinterface dit gaat dus de classes oproepen waneer nodig. <br>
+de belangrijke delen zijn het inladen van de foto geselecteerd door de gebruiker en het aanpassen van de foto naar gelang de instellingen die geselecteerd zijn.
+
+Deze 2 lijnen code lezen het geselecteerd bestand in en zetten het om naar en bitmap. met een bitmap kan je makelijk pixels uitlezen en wegschrijven. 
+De bitmap wordt ook ge sized naar de dimeties van de picture box
+```
+ Image img = Image.FromFile(file);
+ image = new Bitmap(img, new Size(pictureBox1.Width, pictureBox1.Height));
+```
+
+Afhankelijk van het algoritme wordt een methode opgeroepen. Deze geeft 2 waarden terug een bitmap en een double. <br>
+De bitmap is de aangepaste foto en de double de gemiddelde kleur afstand.
+
+```
+result = c.convert(colorSize, checkBox1.Checked , progressBar2, label4);
+```
+Om de color palette te visualiseren wordt er een methode opgeroepen die dan een bitmap returned.
+Er is ook een optie om een pagina mee te geven omdat 256 kleuren weergeven op een scherm niet altijd duidelijk is toon ik 32 en een optie om van pagina te veranderen.
+```
+c.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, ((int.Parse(this.label5.Text))));
+```
+### 2. De algoritmes
+Deze aplicatie maakt gebruik van 2 algoritme ( [median cut](README.md#Median cut) en [k-means](README.md#k-means)). 
+#### Median cut
+Deze classe heeft 2 public methode [Convert](README.md#####Convert) en [CreatePaletteMap](README.md#####CreatePaletteMap).
+##### Convert
+Deze bestaat uit 2 delen create palette en omzetten van de bitmap pixels. <br>
+eerst wordt er een color palette gemaakt aan de hand van het median cut algoritme dat werdt bescheven.
+
+Eerst wordt de bitmap ingelezen en de pixels worden in een List geplaatst. vervolgens worden ze georderd op het kleur met de greatest range.
+```
+List<Color> pixelList = GetPixelList(bitmap);
+pixelList = orderByGreatestRange(pixelList);
+```
+
+Als buckets gebruik ik eeb list van een list van kleuren. en ik vul de eerste met de geordende pixel list.
+```
+List<List<Color>> buckets = new List<List<Color>>();
+buckets.Add(pixelList);
+```
+Vervolgens split ik de bucket met de greatest range en plaats de 2 nieuwe buckets in de buckets list. Uiteraard wordt de parrent verwijderd<br>
+Dit wordt herhaald tot de palletSize wordt berijkt.
+```
+do
+{
+    List<Color> colorGR = (findGreatestRange(buckets));
+    var itemsCut = Cut(colorGR);
+    buckets.Add(itemsCut.Item1);
+    buckets.Add(itemsCut.Item2);
+    buckets.Remove(colorGR);
+} while (buckets.Count < PalletSize);
+```
+
+Dan wordt van elke bucket appart het gemiddelde bepaald en toegevoegd aan het color palette.
+```
+ pallet.Add(BerekenGemiddelde(buckets[i]));
+```
+##### CreatePaletteMap
 
 # experimentatie
 
