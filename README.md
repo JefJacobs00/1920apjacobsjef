@@ -4,15 +4,15 @@ De bedoeling van dit project is om de colors van een afbeelding te verminderen (
 Er zijn meerdere color quantization algoritmes. Voor dit project maak ik gebruik van 2 algoritmes: median cut en k-means.
 Er is ook een mogelijkheid om dithering toe te passen op de gequantizationed afbeelding.
  
-#color quantization
+# color quantization
 Color quantization is een prosses dat het aantal kleuren in een afbeelding verminderd.
 Het doel is om een color palette te kiezen zodat je met minder kleuren (max 256 in dit geval) de afbeelding zo goed mogenlijk hermaakt.
 Hiervoor worden algoritmes gebruikt. 
 
-#Median cut
+# Median cut
 Het median cut algoritme is uitgevonden door Paul Heckbert in 1979. 
 En is een van de meest populaire algoritmes.
-####Werking
+#### Werking
 Eerst bepaal je het kleur met de grootste range. <br>
 Voorbeeld
 
@@ -41,14 +41,14 @@ in de 256 buckets zitten meerdere kleuren dus moeten we het gemiddelde van deze 
 
 Met als gevolg hebben we een kleur palette gemaakt van 256 kleuren. 
 
-####Voordelen
+#### Voordelen
 + Het maken van een color palette is redelijk snel
 + Consequent resultaat
 + redelijk goed resultaat
 
-#Opbouw code
+# Opbouw code
 
-#experimentatie
+# experimentatie
 
-#conclusie
+# conclusie
 
