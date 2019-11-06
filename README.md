@@ -14,6 +14,7 @@ Het median cut algoritme is uitgevonden door Paul Heckbert in 1979.
 En is een van de meest populaire algoritmes.
 #### Werking
 Eerst bepaal je het kleur met de grootste range. <br>
+
 Voorbeeld
 
 | R         |    G     |    B    |
@@ -46,6 +47,18 @@ Met als gevolg hebben we een kleur palette gemaakt van 256 kleuren.
 + Consequent resultaat
 + redelijk goed resultaat
 
+# K-means
+Het k-means clustering algoritme werkt door alle kleuren in clusters te verdelen en daaruit dan een color palette maken.
+#### Werking
+Eerst neem je 256 (of hoeveel kleuren je in je color palette wilt) kleuren. Die gaan onze clusters zijn. <br>
+Vervolgens bekijk je de andere kleuren en bepaal je bij welke cluster deze het dichts is plaats deze dan in die cluster. <br>
+eens dat alle kleuren in hun clusters zitten wordt het gemiddelde van die cluster berekend. 
+
+dan ga je nog is alle kleuren na en plaats  ze in de dichtste cluster, doe dit tot de clusters niet meer veranderen.
+ 
+Aangezien de initieele clusters random zijn hebben we niet altijd het beste resultaat daarom kunnen we deze stappen herhalen tot we een goed genoeg resultaat krijgen.
+
+![Sample Video](https://youtu.be/4b5d3muPQmA)
 # Opbouw code
 
 # experimentatie
