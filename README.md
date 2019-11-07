@@ -211,7 +211,7 @@ if (kleinsteKleurAfstand > kleurAfstand)
 |           | Origineel         |   256 5x   |    256 10x     |
 |-----------|-------------------|--------------------------|--------------------------:|
 |kmeans     |  ![](.\pictures\TestPicture2.jpg) | ![](.\pictures\kmeans256x5.jpg) | ![](.\pictures\kmeans256x10.jpg) |
-|resultaat  |  | 8.7 gemiddelde kleur afstand | 8.8 gemiddelde kleur afstand |
+|resultaat  |  | 8.7 gemiddelde kleur afstand | 8.6 gemiddelde kleur afstand |
 
 
 
