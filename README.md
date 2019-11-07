@@ -11,7 +11,7 @@ Hiervoor worden algoritmes gebruikt.
 
 # Median cut
 Het median cut algoritme is uitgevonden door Paul Heckbert in 1979. 
-En is een van de meest populaire algoritmes.
+En is een van de meest populaire algoritmes. En werkt door de colors te splitsen door de median vandaar de naam "median cut".
 #### Werking
 Eerst bepaal je het kleur met de grootste range. <br>
 
@@ -48,7 +48,7 @@ Met als gevolg hebben we een kleur palette gemaakt van 256 kleuren.
 #### nadelen
 - Resultaat niet ideaal
 # K-means
-Het k-means clustering algoritme werkt door alle kleuren in clusters te verdelen en daaruit dan een color palette maken.
+Het k-means clustering algoritme werkt door alle kleuren in clusters te verdelen en dan van die clusters de means (gemiddelde) te berekenen.
 #### Werking
 Eerst neem je 256 (of hoeveel kleuren je in je color palette wilt) kleuren. Die gaan onze clusters zijn. <br>
 Vervolgens bekijk je de andere kleuren en bepaal je bij welke cluster deze het dichts is plaats deze dan in die cluster. <br>
@@ -64,6 +64,8 @@ Aangezien de initieele clusters random zijn hebben we niet altijd het beste resu
 #### nadelen
 - resultaat is niet Consequent
 - meer runs zorgt voor een langere tijd
+# Dithering
+??
 # Opbouw code
 De code is opgebouwd uit 3 hoofd delen.
 1. De winform
@@ -93,11 +95,11 @@ c.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, ((int.Parse(this.label5
 ```
 ### 2. De algoritmes
 Deze aplicatie maakt gebruik van 2 algoritme ( [median cut](README.md#Median cut) en [k-means](README.md#k-means)). 
-#### Median cut
-Deze classe heeft 2 public methode [Convert](README.md#####Convert) en [CreatePaletteMap](README.md#####CreatePaletteMap).
+#### Code median cut
+Deze classe heeft 2 public methode Convert en [CreatePaletteMap](README.md#CreatePaletteMap).
 ##### Convert
 Deze bestaat uit 2 delen create palette en omzetten van de bitmap pixels. <br>
-eerst wordt er een color palette gemaakt aan de hand van het median cut algoritme dat werdt bescheven.
+eerst wordt er een color palette gemaakt aan de hand van het [median cut](README.md#Median cut) algoritme dat werdt bescheven.
 
 Eerst wordt de bitmap ingelezen en de pixels worden in een List geplaatst. vervolgens worden ze georderd op het kleur met de greatest range.
 ```
@@ -127,8 +129,61 @@ Dan wordt van elke bucket appart het gemiddelde bepaald en toegevoegd aan het co
 ```
  pallet.Add(BerekenGemiddelde(buckets[i]));
 ```
-##### CreatePaletteMap
 
+#### Code K-means
+De k means class heeft 2 methode Convert en [CreatePaletteMap](README.md#CreatePaletteMap).
+##### Convert
+de convert methode heeft 2 delen, deel 1 is het aanmaken van een color palette en deel 2 is de afbeelding aanpassen aan de hand van het gegeven color palette.
+
+Eerst worden er random clusters gemaakt. Het aantal clusters hangt af van de palette grote. <br>
+vervolgens worden alle kleuren in de dichtsbijzijnde cluster geplaatst bepaald door de afstand tussen de cluster.  En dan in een list geplaatst
+```
+List<Color> ks = getKs(colors, palletSize);
+List<Color> clusterMeans = CreateClusters(ks, colors,p);
+``` 
+Dit wordt herhaald tot er geen verandering meer ik de clusters is.
+```
+do
+{
+    prevClusterMeans = clusterMeans;
+    clusterMeans = CreateClusters(prevClusterMeans, colors,p);
+} while (clusterMeans.Equals(prevClusterMeans));
+```
+Dit kan x keer herhaald worden om dan de beste te returnen.
+
+
+#### CreatePaletteMap
+In deze methode wordt een color palette visueel gemaakt. (Omzetting naar bitmap).
+
+Aangezien 256 kleuren op 1 scherm niet duidelijk genoeg was heb ik vanaf 128 kleuren een splitsing gemaakt per 32 kleuren met een mogelijkheid om van pagina te veranderen. 
+
+#####color palette 16-64
+In de methode SetPixels worden de pixels geset. xTimes en yTimes zijn hoeveel keer een kleur herhaald wordt over de x en y as.
+```
+SetPixels(b, x, y, xTimes, y / pallet.Count, pallet);
+```
+#####color palette 128-256
+Bij 128 en 256 colors wordt het in paginas opgedeeld dus afhankelijk van de pagina worden 32 kleuren genomen en die worden dan gevisualiseerd.
+```
+for (int i = (amountPerPage * (page-1)); i <= (amountPerPage * page)-1; i++)
+{
+    colorsPerPage.Add(pallet[i]); 
+}
+```
+
+#### Code convertor
+Hier wordt er gekeken welke kleur van de color palette het dichts bij het origineel licht en dan wordt het origineel veranderd naar de dichtsbijzijnde kleur.
+
+
+```
+double kleurAfstand = Math.Sqrt(Math.Pow(palette[i].R - c.R, 2) + Math.Pow(palette[i].G - c.G, 2) + Math.Pow(palette[i].B - c.B, 2));
+
+if (kleinsteKleurAfstand > kleurAfstand)
+{
+    colorIndex = i;
+    kleinsteKleurAfstand = kleurAfstand;
+}
+```
 # experimentatie
 
 # conclusie
