@@ -274,6 +274,7 @@
             this.trackBar1.TabIndex = 22;
             this.trackBar1.TabStop = false;
             this.trackBar1.Value = 1;
+            this.trackBar1.Visible = false;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // Form1

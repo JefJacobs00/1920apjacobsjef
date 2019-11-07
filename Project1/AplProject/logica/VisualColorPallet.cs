@@ -20,6 +20,7 @@ namespace Project1.logica
         {
             int amountPerPage = 32;
             Bitmap b = new Bitmap(x, y);
+            //up to 64 colors get shown on the screen from 128 it gets split
             if (pallet.Count <= 64)
             {
                 SetPixels(b, x, y, x, y / pallet.Count, pallet);
@@ -31,10 +32,12 @@ namespace Project1.logica
                     throw new ArgumentOutOfRangeException($"Page {page} bestaat niet");
                 }
                 List<Color> colorsPerPage = new List<Color>();
+                //get 32 (ammountPerPage var) depending on the page e.g if page is 1 first 32 colors, page is 2 second 32 colors ,....
                 for (int i = (amountPerPage * (page-1)); i <= (amountPerPage * page)-1; i++)
                 {
                     colorsPerPage.Add(pallet[i]); 
                 }
+
                 SetPixels(b, x, y, x, y / amountPerPage, colorsPerPage);
             }
 
@@ -43,6 +46,10 @@ namespace Project1.logica
 
         private Bitmap SetPixels(Bitmap b,int x , int y, int xTimes , int yTimes,List<Color> colors)
         {
+            //xTimes the ammount of x pixels that get set
+            //yTimes the ammount of y pixels that get set
+            //x-y dimentions of the color palette map
+
             for (int i = 0; i < colors.Count; i++)
             {
                 for (int j = 1; j < yTimes; j++)
@@ -53,6 +60,8 @@ namespace Project1.logica
                         {
                             break;
                         }
+                        //set de correcte pixel
+                        //j + (i * ytimes) calculates what y pixel its on
                         b.SetPixel(k, j + (i * yTimes), colors[i]);
                     }
                 }

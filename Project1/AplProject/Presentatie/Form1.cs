@@ -53,25 +53,25 @@ namespace Project1
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //TODO toevoegen van beveiling
+            //Zorgen dat er geen lege file namen worden aanvaard
             saveFileDialog1.ShowDialog();
-            if (saveFileDialog1.FileName != null)
+            if (saveFileDialog1.FileName == null)
             {
                 return;
             }
-
+            Image img = pictureBox2.Image;
             switch (saveFileDialog1.FilterIndex)
             {
                 case 1:
-                    image.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    img.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
                     break;
 
                 case 2:
-                    image.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                    img.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
                     break;
 
                 case 3:
-                    image.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Gif);
+                    img.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Gif);
                     break;
             }
         }
@@ -100,16 +100,17 @@ namespace Project1
             var result = (image, -1.0);
             if (comboBox1.SelectedItem.ToString().Equals(Algorythm.MedianCut.ToString()))
             {
-                c = new MedianCut(image);
                 label4.Text = "Creating color palette using median cut method";
-                result = c.convert(colorSize, checkBox1.Checked , progressBar2, label4);
+                c = new MedianCut(image);
+                
+                result = c.Convert(colorSize, checkBox1.Checked , progressBar2, label4);
                 Bitmap b2 = result.Item1;
-                this.pictureBox3.Image = c.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, 1);
+                this.pictureBox3.Image = c.CreatePaletteMap(pictureBox3.Width, pictureBox3.Height, 1);
             }
             else if (comboBox1.SelectedItem.ToString().Equals(Algorythm.Kmeans.ToString()))
             {
                 k = new Kmeans(image);
-                result = k.convert(progressBar2, checkBox1.Checked, colorSize, trackBar1.Value , label4);
+                result = k.Convert(progressBar2, checkBox1.Checked, colorSize, trackBar1.Value  , label4);
                 this.pictureBox3.Image = k.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, 1);
             }
 
@@ -139,7 +140,7 @@ namespace Project1
 
             if (comboBox1.SelectedItem.ToString().Equals(Algorythm.MedianCut.ToString()))
             {
-                this.pictureBox3.Image = c.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, ((int.Parse(this.label5.Text))));
+                this.pictureBox3.Image = c.CreatePaletteMap(pictureBox3.Width, pictureBox3.Height, ((int.Parse(this.label5.Text))));
             }
             else if (comboBox1.SelectedItem.ToString().Equals(Algorythm.Kmeans.ToString()))
             {
@@ -179,13 +180,13 @@ namespace Project1
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem.Equals(Algorythm.Kmeans.ToString()))
+            if (comboBox1.SelectedItem.ToString().Equals(Algorythm.Kmeans.ToString()))
             {
                 trackBar1.Visible = true;
             }
             else
             {
-                trackBar1.Visible = true;
+                trackBar1.Visible = false;
             }
         }
 

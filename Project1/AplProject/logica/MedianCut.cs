@@ -14,14 +14,14 @@ namespace Project1.logica
             bmp = bitmap;
         }
 
-        public (Bitmap, double) convert(int palletSize, bool dithering , ProgressBar p,Label l)
+        public (Bitmap, double) Convert(int palletSize, bool dithering , ProgressBar p,Label l)
         {
             this.pallet = CreatePallet(bmp, palletSize,p);
-            l.Text = "Converting pixels of the picture";
+            
             return Convertor.ReplaceToClosest(bmp, pallet, dithering , p);
         }
 
-        public Bitmap CreatePalletMap(int x, int y,int page)
+        public Bitmap CreatePaletteMap(int x, int y,int page)
         {
             VisualColorPallet visual = new VisualColorPallet(pallet);
             return visual.CreatePalletBitmap(x, y, page);
@@ -54,37 +54,7 @@ namespace Project1.logica
             }
 
             return pallet;
-            
-
-            // TOT HIER
-            //List<List<Color>> bucketsHelp = new List<List<Color>>();
-            //buckets.Add(pixelList.ToArray());
-            //int size = (int)Math.Log(PalletSize, 2);
-            //for (int i = 0; i < size; i++)
-            //{
-            //    for (int j = 0; j < buckets.Count; j++)
-            //    {
-            //        List<Color[]> c = Cut(buckets[j]);
-            //        bucketsHelp.Add(c[0]);
-            //        bucketsHelp.Add(c[1]);
-            //    }
-
-            //    buckets.Clear();
-            //    for (int j = 0; j < bucketsHelp.Count; j++)
-            //    {
-            //        buckets.Add(bucketsHelp[j]);
-            //    }
-            //    bucketsHelp.Clear();
-            //}
-
-            ////https://sighack.com/post/averaging-rgb-colors-the-right-way
-            //List<Color> pallet = new List<Color>();
-
-            //for (int i = 0; i < buckets.Count; i++)
-            //{
-            //    pallet.Add(BerekenGemiddelde(buckets[i]));
-
-            //}
+          
         }
 
         private List<Color> findGreatestRange(List<List<Color>> buckets)
