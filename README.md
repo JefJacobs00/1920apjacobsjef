@@ -64,8 +64,17 @@ Aangezien de initieele clusters random zijn hebben we niet altijd het beste resu
 #### nadelen
 - resultaat is niet Consequent
 - meer runs zorgt voor een langere tijd
-# Dithering
-??
+# Dithering 
+Dithering is ruis die wordt toegevoegd aan een afbeelding om color banding te vermideren. Er zijn hier meerdere algortimes.
+Deze applicatie maakt gebruik van Floyd–Steinberg dithering. 
+
+<br>* is de huidige pixel. De pixels die al veranderd zijn worden niet meer aangepast. dan wordt de quantization error van de huidige pixel naar de omligende pixels verspreid.
+<br>Voorbeeld:
+voor pixel[x + 1] (de pixel rechts van * )  <br>
+
+pixel[x + 1] = pixel[x + 1] + error_huidigePixel * 7 / 16
+
+![image](https://wikimedia.org/api/rest_v1/media/math/render/svg/ad305726a5720c59f10c8beb3057c78d43f1fed0)
 # Opbouw code
 De code is opgebouwd uit 3 hoofd delen.
 1. De winform
@@ -186,5 +195,43 @@ if (kleinsteKleurAfstand > kleurAfstand)
 ```
 # experimentatie
 
-# conclusie
 
+
+|           | Origineel         |   256 zonder dithering   |    256 met dithering     |
+|-----------|-------------------|--------------------------|--------------------------:|
+|Median cut   |  ![](.\pictures\TestPicture2.jpg) | ![](.\pictures\medianCut256.jpg) | ![](.\pictures\medianCut256Dithering.jpg) |
+|resultaat  |  | 10.2 gemiddelde kleur afstand | 10.4 gemiddelde kleur afstand |
+
+
+|           | Origineel         |   256 zonder dithering   |    256 met dithering     |
+|-----------|-------------------|--------------------------|--------------------------:|
+|kmeans    |  ![](.\pictures\TestPicture2.jpg) | ![](.\pictures\kmeans256.jpg) | ![](.\pictures\kmeans256Dithering.jpg) |
+|resultaat  |  | 8.6 gemiddelde kleur afstand | 9.4 gemiddelde kleur afstand |
+
+|           | Origineel         |   256 5x   |    256 10x     |
+|-----------|-------------------|--------------------------|--------------------------:|
+|kmeans     |  ![](.\pictures\TestPicture2.jpg) | ![](.\pictures\kmeans256x5.jpg) | ![](.\pictures\kmeans256x10.jpg) |
+|resultaat  |  | 8.7 gemiddelde kleur afstand | 8.8 gemiddelde kleur afstand |
+
+
+
+
+
+
+
+
+# conclusie
+In de median cut tabel kan je zien dat er redelijk veel color banding is. door het gebruik van dithering wordt dit wel beter. 
+Maar de gemiddelde kleur afstand wordt wel een beetje minder bij het gebruik van dithering.
+
+Bij k-means is dit wat minder color banding in het algemeen. Maar nog steeds wordt dit beter bij dithering.
+
+het verschil tussen kmeans en median cut is wel merkbaar als je naar de bergen kijkt is er een minder resultaat bij median cut. 
+Bijde algoritmen geven een mooi resultaat bij de bloemen. De zon zorgt voor veel color banding bij bijde algoritme.
+
+Het k-means algoritme heeft iedere keer een ander resultaat door dat de clusters random worden gekozen. 
+Met als gevolg is het aangeraden om het algoritme meerdere keren te runnen. 
+bij de 5x run krijgen we een minder resultaat dan bij de 1x run dit kan zijn omdat we geluk hebben gehad met de 1x run of ongeluk met de 5x.
+Bij de 10x run krijgen we een verbetering rond de zon maar een vermindering bij de bergen. de lucht is ook beter bij de 10x.
+De bloemen zijn overal ongeveer gelijk. 
+ 
