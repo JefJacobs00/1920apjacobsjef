@@ -199,18 +199,18 @@ if (kleinsteKleurAfstand > kleurAfstand)
 
 |           | Origineel         |   256 zonder dithering   |    256 met dithering     |
 |-----------|-------------------|--------------------------|--------------------------:|
-|Median cut   |  ![](.\pictures\TestPicture2.jpg) | ![](.\pictures\medianCut256.jpg) | ![](.\pictures\medianCut256Dithering.jpg) |
+|Median cut   |  ![](https://git.ikdoeict.be/jef.jacobs/1920apjacobsjef/raw/master/pictures/Kmeans256.jpg) | ![](https://git.ikdoeict.be/jef.jacobs/1920apjacobsjef/raw/master/pictures/medianCut256.jpg) | ![](https://git.ikdoeict.be/jef.jacobs/1920apjacobsjef/raw/master/pictures/medianCut256Dithering.jpg) |
 |resultaat  |  | 10.2 gemiddelde kleur afstand | 10.4 gemiddelde kleur afstand |
 
 
 |           | Origineel         |   256 zonder dithering   |    256 met dithering     |
 |-----------|-------------------|--------------------------|--------------------------:|
-|kmeans    |  ![](.\pictures\TestPicture2.jpg) | ![](.\pictures\kmeans256.jpg) | ![](.\pictures\kmeans256Dithering.jpg) |
+|kmeans    |  ![](https://git.ikdoeict.be/jef.jacobs/1920apjacobsjef/raw/master/pictures/Kmeans256.jpg) | ![](.\pictures\kmeans256.jpg) | ![](.\pictures\kmeans256Dithering.jpg) |
 |resultaat  |  | 8.6 gemiddelde kleur afstand | 9.4 gemiddelde kleur afstand |
 
 |           | Origineel         |   256 5x   |    256 10x     |
 |-----------|-------------------|--------------------------|--------------------------:|
-|kmeans     |  ![](.\pictures\TestPicture2.jpg) | ![](.\pictures\kmeans256x5.jpg) | ![](.\pictures\kmeans256x10.jpg) |
+|kmeans     |  ![](https://git.ikdoeict.be/jef.jacobs/1920apjacobsjef/raw/master/pictures/Kmeans256.jpg) | ![](.\pictures\kmeans256x5.jpg) | ![](.\pictures\kmeans256x10.jpg) |
 |resultaat  |  | 8.7 gemiddelde kleur afstand | 8.6 gemiddelde kleur afstand |
 
 
