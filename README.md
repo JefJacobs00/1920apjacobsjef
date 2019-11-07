@@ -9,7 +9,7 @@ Om aan dit project te kunnen beginnen heb ik info gezocht over: color quantizati
 ## color quantization
 Color quantization is een prosses dat het aantal kleuren in een afbeelding verminderd.
 Het doel is om een color palette te kiezen zodat je met minder kleuren (max 256 in dit geval) de afbeelding zo goed mogenlijk hermaakt.
-Hiervoor worden algoritmes gebruikt. 
+Hiervoor worden algoritmes gebruikt. <sup>[[1]](README.md#referentie list)</sup>
 
 ## Median cut
 Het median cut algoritme is uitgevonden door Paul Heckbert in 1979. 
