@@ -63,14 +63,17 @@ namespace Project1
             switch (saveFileDialog1.FilterIndex)
             {
                 case 1:
+                    //jpg
                     img.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
                     break;
 
                 case 2:
+                    //bmp
                     img.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
                     break;
 
                 case 3:
+                    //gif
                     img.Save(saveFileDialog1.FileName, System.Drawing.Imaging.ImageFormat.Gif);
                     break;
             }
