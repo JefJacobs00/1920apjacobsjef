@@ -19,14 +19,12 @@ namespace Project1.logica
             this.bitmap = bitmap;
         }
 
-        public (Bitmap, double) convert(ProgressBar progressAfbeelding, bool dithering , int palletSize,int k,Label l)
+        public (Bitmap, double) Convert(ProgressBar progressAfbeelding, bool dithering , int palletSize,int k,Label l)
         {
 
             List<Color> colors = GetPixels(bitmap);
-            l.Text = "Creating color palette using K-means method";
-            pallet = CreatePallet(colors, palletSize,k,progressAfbeelding);
 
-            l.Text = "Converting pixels of the picture";
+            pallet = CreatePallet(colors, palletSize,k,progressAfbeelding);
             return Convertor.ReplaceToClosest(bitmap, pallet, dithering , progressAfbeelding);
         }
         public Bitmap CreatePalletMap(int x, int y, int page)
@@ -83,15 +81,18 @@ namespace Project1.logica
             double besteAfstand = double.MaxValue;
             for (int i = 0; i < k; i++)
             {
+                // random clusters maken
                 List<Color> ks = getKs(colors, palletSize);
                 List<Color> prevClusterMeans = ks;
+                //kleuren in een cluster steken en dan gemiddelde berekenen
                 List<Color> clusterMeans = CreateClusters(ks, colors,p);
                 p.Maximum = 1;
                 p.Value = 1;
+                //dit herhalen tot het overeen komt
                 do
                 {
                     prevClusterMeans = clusterMeans;
-                    clusterMeans = CreateClusters(prevClusterMeans, colors,p);
+                    clusterMeans = CreateClusters(prevClusterMeans, colors, p);
                 } while (clusterMeans.Equals(prevClusterMeans));
 
                 Dictionary<Color, Color> clusterDictionary = new Dictionary<Color, Color>();
