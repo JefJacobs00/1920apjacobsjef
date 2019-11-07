@@ -9,11 +9,11 @@ Om aan dit project te kunnen beginnen heb ik info gezocht over: color quantizati
 ## color quantization
 Color quantization is een prosses dat het aantal kleuren in een afbeelding verminderd.
 Het doel is om een color palette te kiezen zodat je met minder kleuren (max 256 in dit geval) de afbeelding zo goed mogenlijk hermaakt.
-Hiervoor worden algoritmes gebruikt. <sup>[[1]](README.md#referentielist)</sup>
+Hiervoor worden algoritmes gebruikt. <sup>[[1,4]](#referentie-list)</sup>
 
 ## Median cut
 Het median cut algoritme is uitgevonden door Paul Heckbert in 1979. 
-En is een van de meest populaire algoritmes. En werkt door de colors te splitsen door de median vandaar de naam "median cut".
+En is een van de meest populaire algoritmes. En werkt door de colors te splitsen door de median vandaar de naam "median cut".<sup>[[2,3]](#referentie-list)</sup>
 #### Werking
 Eerst bepaal je het kleur met de grootste range. <br>
 
@@ -50,7 +50,7 @@ Met als gevolg hebben we een kleur palette gemaakt van 256 kleuren.
 #### nadelen
 - Resultaat niet ideaal
 ## K-means clustering
-Het k-means clustering algoritme werkt door alle kleuren in clusters te verdelen en dan van die clusters de means (gemiddelde) te berekenen.
+Het k-means clustering algoritme werkt door alle kleuren in clusters te verdelen en dan van die clusters de means (gemiddelde) te berekenen. <sup>[[5,6]](#referentie-list)</sup>
 #### Werking
 Eerst neem je 256 (of hoeveel kleuren je in je color palette wilt) kleuren. Die gaan onze clusters zijn. <br>
 Vervolgens bekijk je de andere kleuren en bepaal je bij welke cluster deze het dichts is plaats deze dan in die cluster. <br>
@@ -58,7 +58,7 @@ eens dat alle kleuren in hun clusters zitten wordt het gemiddelde van die cluste
 
 dan ga je nog is alle kleuren na en plaats  ze in de dichtste cluster, doe dit tot de clusters niet meer veranderen.
  
-Aangezien de initieele clusters random zijn hebben we niet altijd het beste resultaat daarom kunnen we deze stappen herhalen tot we een goed genoeg resultaat krijgen.
+Aangezien de initieele clusters random zijn hebben we niet altijd het beste resultaat daarom kunnen we deze stappen herhalen tot we een goed genoeg resultaat krijgen.<sup>[[5,6]](#referentie-list)</sup>
 
 #### voordelen
 + Goed resultaat
@@ -70,7 +70,7 @@ Aangezien de initieele clusters random zijn hebben we niet altijd het beste resu
 Dithering is ruis die wordt toegevoegd aan een afbeelding om color banding te vermideren. Er zijn hier meerdere algortimes.
 Deze applicatie maakt gebruik van Floyd–Steinberg dithering. 
 
-<br>* is de huidige pixel. De pixels die al veranderd zijn worden niet meer aangepast. dan wordt de quantization error van de huidige pixel naar de omligende pixels verspreid.
+<br>* is de huidige pixel. De pixels die al veranderd zijn worden niet meer aangepast. dan wordt de quantization error van de huidige pixel naar de omligende pixels verspreid.<sup>[[7,8]](#referentie-list)</sup>
 <br>Voorbeeld:
 voor pixel[x + 1] (de pixel rechts van * )  <br>
 
@@ -105,12 +105,12 @@ Er is ook een optie om een pagina mee te geven omdat 256 kleuren weergeven op ee
 c.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, ((int.Parse(this.label5.Text))));
 ```
 ### 2. De algoritmes
-Deze aplicatie maakt gebruik van 2 algoritme ( [median cut](README.md#Median cut) en [k-means](README.md#k-means)). 
+Deze aplicatie maakt gebruik van 2 algoritme ( [median cut](#Median cut) en [k-means](#k-means)). 
 #### Code median cut
-Deze classe heeft 2 public methode Convert en [CreatePaletteMap](README.md#CreatePaletteMap).
+Deze classe heeft 2 public methode Convert en [CreatePaletteMap](#CreatePaletteMap).
 ##### Convert
 Deze bestaat uit 2 delen create palette en omzetten van de bitmap pixels. <br>
-eerst wordt er een color palette gemaakt aan de hand van het [median cut](README.md#Median cut) algoritme dat werdt bescheven.
+eerst wordt er een color palette gemaakt aan de hand van het [median cut](#Median cut) algoritme dat werdt bescheven.
 
 Eerst wordt de bitmap ingelezen en de pixels worden in een List geplaatst. vervolgens worden ze georderd op het kleur met de greatest range.
 ```
@@ -142,7 +142,7 @@ Dan wordt van elke bucket appart het gemiddelde bepaald en toegevoegd aan het co
 ```
 
 #### Code K-means
-De k means class heeft 2 methode Convert en [CreatePaletteMap](README.md#CreatePaletteMap).
+De k means class heeft 2 methode Convert en [CreatePaletteMap](#CreatePaletteMap).
 ##### Convert
 de convert methode heeft 2 delen, deel 1 is het aanmaken van een color palette en deel 2 is de afbeelding aanpassen aan de hand van het gegeven color palette.
 
@@ -241,9 +241,12 @@ De bloemen zijn overal ongeveer gelijk.
  
  | Type          |  Reference        | 
 |-----------|-------------------------------:|
-|  Color quantization | https://en.wikipedia.org/wiki/Color_quantization   | 
-|  Median cut wiki  | https://en.wikipedia.org/wiki/Median_cut  | 
-| betere uitleg median cut | http://joelcarlson.github.io/2016/01/15/median-cut/ |
-| color quantization  | https://www.codeproject.com/Articles/66341/A-Simple-Yet-Quite-Powerful-Palette-Quantizer-in-C|
-|k means clustering| https://dionesiusap.github.io/articles/20180528-color-quantization-using-k-means.html|
-|simpele goede uitleg k means | https://nl.go-travels.com/88048-k-means-clustering-1019648-4071969|
+|  Color quantization [1] | https://en.wikipedia.org/wiki/Color_quantization   | 
+|  Median cut wiki [2] | https://en.wikipedia.org/wiki/Median_cut  | 
+| betere uitleg median cut [3] | http://joelcarlson.github.io/2016/01/15/median-cut/ |
+| color quantization [4] | https://www.codeproject.com/Articles/66341/A-Simple-Yet-Quite-Powerful-Palette-Quantizer-in-C|
+|k means clustering [5]| https://dionesiusap.github.io/articles/20180528-color-quantization-using-k-means.html|
+|simpele goede uitleg k means [6] | https://nl.go-travels.com/88048-k-means-clustering-1019648-4071969|
+|Dithering [7] | https://en.wikipedia.org/wiki/Dither|
+|Floyd Steinberg Dithering [8] | https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering|
+
