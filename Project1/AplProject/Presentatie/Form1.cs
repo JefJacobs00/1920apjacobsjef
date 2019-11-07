@@ -7,12 +7,7 @@ using System.Windows.Forms;
 
 namespace Project1
 {
-    /*
-     * Toevoegen gemiddelde Euclidische kleurafstand
-     * kleurpallet naast elkaar
-     * kleur histogram
-     * interactieve instellingen
-     */
+    
     public partial class Form1 : Form
     {
         private Bitmap image;
@@ -32,6 +27,7 @@ namespace Project1
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //Load selected file
             DialogResult result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -103,6 +99,7 @@ namespace Project1
             var result = (image, -1.0);
             if (comboBox1.SelectedItem.ToString().Equals(Algorythm.MedianCut.ToString()))
             {
+                //median cut
                 label4.Text = "Creating color palette using median cut method";
                 c = new MedianCut(image);
                 
@@ -112,6 +109,7 @@ namespace Project1
             }
             else if (comboBox1.SelectedItem.ToString().Equals(Algorythm.Kmeans.ToString()))
             {
+                //kmeans
                 k = new Kmeans(image);
                 result = k.Convert(progressBar2, checkBox1.Checked, colorSize, trackBar1.Value  , label4);
                 this.pictureBox3.Image = k.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, 1);
@@ -143,10 +141,12 @@ namespace Project1
 
             if (comboBox1.SelectedItem.ToString().Equals(Algorythm.MedianCut.ToString()))
             {
+                //color pal
                 this.pictureBox3.Image = c.CreatePaletteMap(pictureBox3.Width, pictureBox3.Height, ((int.Parse(this.label5.Text))));
             }
             else if (comboBox1.SelectedItem.ToString().Equals(Algorythm.Kmeans.ToString()))
             {
+                //color pal
                 this.pictureBox3.Image = k.CreatePalletMap(pictureBox3.Width, pictureBox3.Height, ((int.Parse(this.label5.Text))));
             }
         }

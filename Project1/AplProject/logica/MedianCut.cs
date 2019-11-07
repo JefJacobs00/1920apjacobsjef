@@ -16,8 +16,7 @@ namespace Project1.logica
 
         public (Bitmap, double) Convert(int palletSize, bool dithering , ProgressBar p,Label l)
         {
-            this.pallet = CreatePallet(bmp, palletSize,p);
-            
+            this.pallet = CreatePallet(bmp, palletSize,p);   
             return Convertor.ReplaceToClosest(bmp, pallet, dithering , p);
         }
 
@@ -32,15 +31,17 @@ namespace Project1.logica
             List<Color> pixelList = GetPixelList(bitmap);
 
             pixelList = orderByGreatestRange(pixelList);
-
+            //bucket list
             List<List<Color>> buckets = new List<List<Color>>();
             buckets.Add(pixelList);
             p.Maximum = PalletSize;
             p.Value = 1;
             do
             {
+                //bucket me greatest range
                 List<Color> colorGR = (findGreatestRange(buckets));
                 var itemsCut = Cut(colorGR);
+                //items are split bucket
                 buckets.Add(itemsCut.Item1);
                 buckets.Add(itemsCut.Item2);
                 buckets.Remove(colorGR);
@@ -64,6 +65,7 @@ namespace Project1.logica
             int rangeAmount = 0;
             for (int i = 0; i < buckets.Count; i++)
             {
+                //gets the ranges and compairs them
                 var range = GetRange(buckets[i], "R");
                 int[] rangeR = new int[2] { range.Item1, range.Item2 };
                 range = GetRange(buckets[i], "G");
@@ -88,7 +90,7 @@ namespace Project1.logica
                 }
 
             }
-
+            //if there is only 2 items return 0 
             if ((indexGR >= 0) && (buckets[indexGR].Count > 2))
             {
                 return buckets[indexGR];
@@ -101,6 +103,7 @@ namespace Project1.logica
 
         private (int,int) GetRange(List<Color> c,string color)
         {
+            //gets the range of a list
             if (!(c.Count > 2))
             {
                 return (0, 0);
@@ -161,6 +164,7 @@ namespace Project1.logica
 
         private List<Color> orderByGreatestRange(List<Color> pixelList)
         {
+            //orderst on greatest range
             int rGroot = int.MinValue;
             int rKlein = int.MaxValue;
 
@@ -199,7 +203,7 @@ namespace Project1.logica
                     bKlein = pixelList[i].B;
                 }
             }
-
+            //https://stackoverflow.com/questions/31316715/sorting-color-in-c-sharp-on-the-basis-of-brightness-or-yiq-scale
             if (((rGroot - rKlein) > (bGroot - bKlein)) && ((rGroot - rKlein) > (gGroot - gKlein)))
             {
                 pixelList.Sort(delegate (System.Drawing.Color left, System.Drawing.Color right)
@@ -226,6 +230,8 @@ namespace Project1.logica
 
         private List<Color> GetPixelList(Bitmap bmp)
         {
+            //gets the pixels of a bitmap
+
             List<Color> pixelList = new List<Color>();
             for (int i = 0; i < bmp.Width; i++)
             {
@@ -239,6 +245,7 @@ namespace Project1.logica
 
         private (List<Color>, List<Color>) Cut(List<Color> c) 
         {
+            //split on median
             c = orderByGreatestRange(c);
 
             List<Color> list1 = new List<Color>();

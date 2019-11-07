@@ -19,13 +19,13 @@ namespace Project1.logica
             this.bitmap = bitmap;
         }
 
-        public (Bitmap, double) Convert(ProgressBar progressAfbeelding, bool dithering , int palletSize,int k,Label l)
+        public (Bitmap, double) Convert(ProgressBar progressAfbeelding, bool dithering, int palletSize, int k, Label l)
         {
 
             List<Color> colors = GetPixels(bitmap);
 
-            pallet = CreatePallet(colors, palletSize,k,progressAfbeelding);
-            return Convertor.ReplaceToClosest(bitmap, pallet, dithering , progressAfbeelding);
+            pallet = CreatePallet(colors, palletSize, k, progressAfbeelding);
+            return Convertor.ReplaceToClosest(bitmap, pallet, dithering, progressAfbeelding);
         }
         public Bitmap CreatePalletMap(int x, int y, int page)
         {
@@ -37,7 +37,7 @@ namespace Project1.logica
             return visual.CreatePalletBitmap(x, y, page);
         }
 
-            private List<Color> GetPixels(Bitmap b)
+        private List<Color> GetPixels(Bitmap b)
         {
             List<Color> pixelList = new List<Color>();
             for (int i = 0; i < b.Width; i++)
@@ -50,31 +50,7 @@ namespace Project1.logica
             return pixelList;
         }
 
-        //private Dictionary<Color, int> GetMostUsedColors(List<Color> c)
-        //{
-        //    Dictionary<Color, int> colors = new Dictionary<Color, int>();
-
-            
-        //    for (int i = 0; i < c.Count; i++)
-        //    {
-
-        //        if (colors.ContainsKey(c[i]))
-        //        {
-        //            colors[c[i]]++;
-        //        }
-        //        else
-        //        {
-        //            colors.Add(c[i], 0);
-        //        }
-                
-        //    }
-        //    //https://stackoverflow.com/questions/289/how-do-you-sort-a-dictionary-by-value
-        //    var sorted = colors.OrderByDescending(x => x.Value);
-        //    colors = sorted.ToDictionary(x => x.Key, x => x.Value);
-        //    return colors;
-        //}
-
-        private List<Color> CreatePallet(List<Color> colors, int palletSize,int k, ProgressBar p)
+        private List<Color> CreatePallet(List<Color> colors, int palletSize, int k, ProgressBar p)
         {
 
             List<Color> bestePallet = new List<Color>();
@@ -85,7 +61,7 @@ namespace Project1.logica
                 List<Color> ks = getKs(colors, palletSize);
                 List<Color> prevClusterMeans = ks;
                 //kleuren in een cluster steken en dan gemiddelde berekenen
-                List<Color> clusterMeans = CreateClusters(ks, colors,p);
+                List<Color> clusterMeans = CreateClusters(ks, colors, p);
                 p.Maximum = 1;
                 p.Value = 1;
                 //dit herhalen tot het overeen komt
@@ -110,7 +86,7 @@ namespace Project1.logica
                 p.Maximum = 1;
                 p.Value = 1;
             }
-            
+
 
             return bestePallet;
 
@@ -119,6 +95,7 @@ namespace Project1.logica
 
         private List<Color> CreateClusters(List<Color> ks, List<Color> colors, ProgressBar p)
         {
+
             Dictionary<Color, List<Color>> cluster = new Dictionary<Color, List<Color>>();
             for (int i = 0; i < ks.Count; i++)
             {
@@ -129,10 +106,12 @@ namespace Project1.logica
                 catch (Exception)
                 {
                 }
-                
+
             }
             p.Maximum = colors.Count();
             p.Value = 1;
+
+            //Calc closest point
             for (int i = 0; i < colors.Count; i++)
             {
                 Color closestDataPoint = ClosestColor(colors[i], ks);
@@ -141,7 +120,8 @@ namespace Project1.logica
             }
             List<Color> clusterMeans = new List<Color>();
             List<Color> keys = cluster.Keys.ToList();
-            
+
+            //means of cluster
             for (int i = 0; i < cluster.Count; i++)
             {
                 clusterMeans.Add(ClusterToAvg(cluster[keys[i]]));
@@ -149,7 +129,7 @@ namespace Project1.logica
             return clusterMeans;
         }
 
-        private double berekenGemAfstand(List<Color> originalPixels,Dictionary<Color,Color> pallet)
+        private double berekenGemAfstand(List<Color> originalPixels, Dictionary<Color, Color> pallet)
         {
             List<Color> palletList = pallet.Keys.ToList();
             double totaalAfstand = 0;
@@ -161,11 +141,11 @@ namespace Project1.logica
             }
 
             return totaalAfstand / originalPixels.Count;
-            
-            
+
+
         }
 
-        private List<Color> getKs(List<Color> colors,int k)
+        private List<Color> getKs(List<Color> colors, int k)
         {
             Random r = new Random();
             List<Color> ks = new List<Color>();
@@ -177,7 +157,7 @@ namespace Project1.logica
                 {
                     test.Add(colors[i], true);
                 }
-                
+
             }
 
             colors = test.Keys.ToList();
@@ -185,13 +165,11 @@ namespace Project1.logica
             do
             {
                 int random = r.Next(0, colors.Count);
-                //if (!(ks.Contains(colors[random])))
-                //{
-                    ks.Add(colors[random]);
-                //}
+
+                ks.Add(colors[random]);
             } while ((ks.Count < k));
             return ks;
-            
+
         }
         private Color ClusterToAvg(List<Color> colors)
         {
@@ -199,7 +177,7 @@ namespace Project1.logica
             double g = 0;
             double b = 0;
 
-            
+
             for (int i = 0; i < colors.Count; i++)
             {
                 r += colors[i].R;
@@ -207,13 +185,13 @@ namespace Project1.logica
                 b += colors[i].B;
             }
 
-            return Color.FromArgb(255, (int) (r / colors.Count), (int) (g / colors.Count), (int) (b / colors.Count));
+            return Color.FromArgb(255, (int)(r / colors.Count), (int)(g / colors.Count), (int)(b / colors.Count));
         }
         private Color ClosestColor(Color c, List<Color> colorList)
         {
             int colorIndex = -1;
             double kleinsteKleurAfstand = int.MaxValue;
-            
+
             for (int i = 0; i < colorList.Count; i++)
             {
 
@@ -223,7 +201,7 @@ namespace Project1.logica
                     colorIndex = i;
                     kleinsteKleurAfstand = kleurAfstand;
                 }
-                
+
             }
 
             return colorList[colorIndex];
