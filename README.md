@@ -4,12 +4,14 @@ De bedoeling van dit project is om de colors van een afbeelding te verminderen (
 Er zijn meerdere color quantization algoritmes. Voor dit project maak ik gebruik van 2 algoritmes: median cut en k-means.
 Er is ook een mogelijkheid om dithering toe te passen op de gequantizationed afbeelding.
  
-# color quantization
+# Voorstudie
+Om aan dit project te kunnen beginnen heb ik info gezocht over: color quantization, median cut, k means clustering en Floyd–Steinberg dithering.
+## color quantization
 Color quantization is een prosses dat het aantal kleuren in een afbeelding verminderd.
 Het doel is om een color palette te kiezen zodat je met minder kleuren (max 256 in dit geval) de afbeelding zo goed mogenlijk hermaakt.
 Hiervoor worden algoritmes gebruikt. 
 
-# Median cut
+## Median cut
 Het median cut algoritme is uitgevonden door Paul Heckbert in 1979. 
 En is een van de meest populaire algoritmes. En werkt door de colors te splitsen door de median vandaar de naam "median cut".
 #### Werking
@@ -47,7 +49,7 @@ Met als gevolg hebben we een kleur palette gemaakt van 256 kleuren.
 + Consequent resultaat
 #### nadelen
 - Resultaat niet ideaal
-# K-means
+## K-means clustering
 Het k-means clustering algoritme werkt door alle kleuren in clusters te verdelen en dan van die clusters de means (gemiddelde) te berekenen.
 #### Werking
 Eerst neem je 256 (of hoeveel kleuren je in je color palette wilt) kleuren. Die gaan onze clusters zijn. <br>
@@ -64,7 +66,7 @@ Aangezien de initieele clusters random zijn hebben we niet altijd het beste resu
 #### nadelen
 - resultaat is niet Consequent
 - meer runs zorgt voor een langere tijd
-# Dithering 
+## Dithering 
 Dithering is ruis die wordt toegevoegd aan een afbeelding om color banding te vermideren. Er zijn hier meerdere algortimes.
 Deze applicatie maakt gebruik van Floyd–Steinberg dithering. 
 
@@ -234,4 +236,14 @@ Met als gevolg is het aangeraden om het algoritme meerdere keren te runnen.
 bij de 5x run krijgen we een minder resultaat dan bij de 1x run dit kan zijn omdat we geluk hebben gehad met de 1x run of ongeluk met de 5x.
 Bij de 10x run krijgen we een verbetering rond de zon maar een vermindering bij de bergen. de lucht is ook beter bij de 10x.
 De bloemen zijn overal ongeveer gelijk. 
+
+# referentie list
  
+ | Type          |  Reference        | 
+|-----------|-------------------------------:|
+|  Color quantization | https://en.wikipedia.org/wiki/Color_quantization   | 
+|  Median cut wiki  | https://en.wikipedia.org/wiki/Median_cut  | 
+| betere uitleg median cut | http://joelcarlson.github.io/2016/01/15/median-cut/ |
+| color quantization  | https://www.codeproject.com/Articles/66341/A-Simple-Yet-Quite-Powerful-Palette-Quantizer-in-C|
+|k means clustering| https://dionesiusap.github.io/articles/20180528-color-quantization-using-k-means.html|
+|simpele goede uitleg k means | https://nl.go-travels.com/88048-k-means-clustering-1019648-4071969|
