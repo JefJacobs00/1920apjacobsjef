@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GeoJSON.Net.Geometry;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Globals;
 
 namespace Data
 {
@@ -22,32 +23,28 @@ namespace Data
         public string test()
         {
             string fileRead;
+            //Belgium_AL2 - AL2
+            //Flanders_AL4-AL7.Geojson
+            //East Flanders_AL6-AL6
             using (StreamReader r = new StreamReader(@"../../../../Data/Resources/Flanders_AL4-AL7.Geojson"))
             {
                 fileRead = r.ReadToEnd();
 
-                dynamic deserialized = JsonConvert.DeserializeObject(fileRead);
-                List<string> names = new List<string>();
-                List<string> cords = new List<string>();
-                foreach (var item in deserialized.features)
-                {
-                    names.Add(""+item["properties"]["name"]);
-                    cords.Add(""+item["geometry"]["coordinates"]);
+                dynamic deserialized = (JObject) JsonConvert.DeserializeObject(fileRead);
 
-                }
-                for (int i = 0; i < cords.Count; i++)
+                foreach(var item in deserialized.features)
                 {
-                    do
-                    {
-                        cords[i].Replace("\r", "");
-                    } while (cords[i].Contains("\r"));
-                    
-                    cords[i].Replace("\n", "");
-                    cords[i].Replace(" ", "");
-                    string[] cordsArr = cords[i].Split(',');
+                    var geo = item["geometry"];
+                    var json = JsonConvert.SerializeObject(geo);
+                    var multipol = JsonConvert.DeserializeObject<MultiPolygon>(json);
                 }
+                
+
+                
+
                 return fileRead;
             }
         }
     }
+
 }

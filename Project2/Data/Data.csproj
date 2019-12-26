@@ -108,5 +108,11 @@
     <None Include="packages.config" />
     <None Include="Resources\Flanders_AL4-AL7.GeoJson" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Globals\Globals.csproj">
+      <Project>{9c6f19dd-1d19-4310-b6e0-bbe39da7090d}</Project>
+      <Name>Globals</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
