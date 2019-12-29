@@ -1,93 +1,44 @@
-﻿using System.Collections.Generic;
+﻿using GeoJSON.Net.Geometry;
+using System.Collections.Generic;
 
 namespace Globals
 {
     public class Province
     {
-        public class GeoJsonProperties
+        private string name;
+        private MultiPolygon multiPolygon;
+
+        private List<GeoJSON.Net.Geometry.Polygon> polygons = new List<GeoJSON.Net.Geometry.Polygon>();
+
+        public MultiPolygon MultiPolygon { get => multiPolygon; }
+        public List<GeoJSON.Net.Geometry.Polygon> Polygons { get => polygons; }
+        public string Name { get => name; }
+
+        public Province(string name , MultiPolygon multiPolygon)
         {
-            public int scalerank { get; set; }
-            public string featurecla { get; set; }
-            public double labelrank { get; set; }
-            public string sovereignt { get; set; }
-            public string sov_a3 { get; set; }
-            public double adm0_dif { get; set; }
-            public double level { get; set; }
-            public string type { get; set; }
-            public string admin { get; set; }
-            public string adm0_a3 { get; set; }
-            public double geou_dif { get; set; }
-            public string geounit { get; set; }
-            public string gu_a3 { get; set; }
-            public double su_dif { get; set; }
-            public string subunit { get; set; }
-            public string su_a3 { get; set; }
-            public double brk_diff { get; set; }
-            public string name { get; set; }
-            public string name_long { get; set; }
-            public string brk_a3 { get; set; }
-            public string brk_name { get; set; }
-            public object brk_group { get; set; }
-            public string abbrev { get; set; }
-            public string postal { get; set; }
-            public string formal_en { get; set; }
-            public string formal_fr { get; set; }
-            public string note_adm0 { get; set; }
-            public string note_brk { get; set; }
-            public string name_sort { get; set; }
-            public string name_alt { get; set; }
-            public double mapcolor7 { get; set; }
-            public double mapcolor8 { get; set; }
-            public double mapcolor9 { get; set; }
-            public double mapcolor13 { get; set; }
-            public double pop_est { get; set; }
-            public double gdp_md_est { get; set; }
-            public double pop_year { get; set; }
-            public double lastcensus { get; set; }
-            public double gdp_year { get; set; }
-            public string economy { get; set; }
-            public string income_grp { get; set; }
-            public double wikipedia { get; set; }
-            public object fips_10 { get; set; }
-            public string iso_a2 { get; set; }
-            public string iso_a3 { get; set; }
-            public string iso_n3 { get; set; }
-            public string un_a3 { get; set; }
-            public string wb_a2 { get; set; }
-            public string wb_a3 { get; set; }
-            public double woe_id { get; set; }
-            public string adm0_a3_is { get; set; }
-            public string adm0_a3_us { get; set; }
-            public double adm0_a3_un { get; set; }
-            public double adm0_a3_wb { get; set; }
-            public string continent { get; set; }
-            public string region_un { get; set; }
-            public string subregion { get; set; }
-            public string region_wb { get; set; }
-            public double name_len { get; set; }
-            public double long_len { get; set; }
-            public double abbrev_len { get; set; }
-            public double tiny { get; set; }
-            public double homepart { get; set; }
+            this.name = name;
+            this.multiPolygon = multiPolygon;
+
+            foreach (var item in multiPolygon.Coordinates)
+            {
+                polygons.Add(item);
+            }
         }
 
-        public class Geometry
+        public override string ToString()
         {
-            public string type { get; set; }
-            public List<List<List<object>>> coordinates { get; set; }
-        }
+            string returnString = $"{name}\nMultiPolygon:\n";
+            for (int i = 0; i < polygons.Count; i++)
+            {
+                returnString += $"\tType: Polygon, Size: {polygons[i].Coordinates.Count}";
 
-        public class Feature
-        {
-            public string type { get; set; }
-            public GeoJsonProperties properties { get; set; }
-            public Geometry geometry { get; set; }
-        }
-
-        public class RootObject
-        {
-            public string type { get; set; }
-            public List<Feature> features { get; set; }
+                returnString += "\n\tLineStrings: \n";
+                for (int j = 0; j < polygons[i].Coordinates.Count; j++)
+                {
+                    returnString += $"\t\tSize: {polygons[i].Coordinates[j].Coordinates.Count} Points\n";
+                }
+            }
+            return returnString;
         }
     }
 }

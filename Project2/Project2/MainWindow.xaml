@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="1065" Width="1666.775">
     <Grid>
-        
+        <Canvas Name ="canvas" HorizontalAlignment="Left" Height="1014" Margin="10,10,0,0" VerticalAlignment="Top" Width="1207"/>
     </Grid>
 </Window>

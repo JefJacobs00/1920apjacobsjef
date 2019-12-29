@@ -20,30 +20,40 @@ namespace Data
             
         }
 
-        public string test()
+        public List<Province> ReadJson()
         {
             string fileRead;
-            //Belgium_AL2 - AL2
-            //Flanders_AL4-AL7.Geojson
-            //East Flanders_AL6-AL6
-            using (StreamReader r = new StreamReader(@"../../../../Data/Resources/Flanders_AL4-AL7.Geojson"))
+
+
+            try
             {
-                fileRead = r.ReadToEnd();
-
-                dynamic deserialized = (JObject) JsonConvert.DeserializeObject(fileRead);
-
-                foreach(var item in deserialized.features)
+                using (StreamReader r = new StreamReader(@"../../../Data/Resources/Antwerp_AL6-AL7.Geojson"))
                 {
-                    var geo = item["geometry"];
-                    var json = JsonConvert.SerializeObject(geo);
-                    var multipol = JsonConvert.DeserializeObject<MultiPolygon>(json);
+                    fileRead = r.ReadToEnd();
                 }
-                
-
-                
-
-                return fileRead;
             }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            dynamic deserialized = (JObject)JsonConvert.DeserializeObject(fileRead);
+
+            List<Province> prov = new List<Province>();
+
+            foreach (var item in deserialized.features)
+            {
+                var geo = item["geometry"];
+                string name = item["properties"]["name"];
+
+                var json = JsonConvert.SerializeObject(geo);
+                var multiPolygon = JsonConvert.DeserializeObject<MultiPolygon>(json);
+
+
+                prov.Add(new Province(name, multiPolygon));
+            }
+
+            return prov;
         }
     }
 
