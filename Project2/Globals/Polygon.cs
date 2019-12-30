@@ -9,6 +9,8 @@ namespace Globals
         
         private List<Point> points;
 
+        public List<Point> Points { get => points; }
+
         public Polygon(List<Point> points)
         {
             this.points = points;

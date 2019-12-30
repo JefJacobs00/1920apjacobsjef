@@ -10,6 +10,9 @@ namespace Globals
     {
         private double x;
         private double y;
+        bool convex;
+
+        public bool Convex { get => convex; set => convex = value; }
 
         public double X { get => x; set => x = value; }
         public double Y { get => y; set => y = value; }
