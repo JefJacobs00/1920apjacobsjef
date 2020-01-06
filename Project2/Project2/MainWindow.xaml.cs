@@ -7,6 +7,8 @@ using System.Windows.Media.Media3D;
 using System;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Project2
 {
@@ -14,22 +16,21 @@ namespace Project2
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// Add -> experimentation voor dockters per m²
-    /// Add line vereenvoudiging slider 
-    /// Add material 
+
     public partial class MainWindow : Window
     {
-        Viewport3D viewport = new Viewport3D();
+        Viewport3D viewport;
         public MainWindow()
         {
             InitializeComponent();
 
-            DrawCanvas();
+            //DrawCanvas();
         }
 
         private PointCollection LineSimp(PointCollection points)
         {
             LineSimplification ls = new LineSimplification();
-            List<Globals.Point> pointListOut = ls.RamerDouglasPeucker(ConvertPointCollToPt(points), 2.5);
+            List<Globals.Point> pointListOut = ls.RamerDouglasPeucker(ConvertPointCollToPt(points), slider.Value);
 
             PointCollection pointsOut = new PointCollection();
             foreach (Globals.Point point in pointListOut)
@@ -208,7 +209,16 @@ namespace Project2
             DirectionalLight myDirLight = new DirectionalLight();
 
             myDirLight.Color = Colors.White;
-            myDirLight.Direction = new Vector3D(-1, -1, -2);
+            //-1 -1 -2
+            try
+            {
+                myDirLight.Direction = new Vector3D(SliderX.Value, SliderY.Value, SliderZ.Value);
+            }
+            catch (Exception)
+            {
+                myDirLight.Direction = new Vector3D(-1 ,-1, -2);
+            }
+            
 
             viewport.Children.Add(new ModelVisual3D() { Content = myDirLight });
 
@@ -335,7 +345,6 @@ namespace Project2
             p.StrokeThickness = 1;
             p.HorizontalAlignment = HorizontalAlignment.Left;
             p.VerticalAlignment = VerticalAlignment.Center;
-            ReadGeo rg = new ReadGeo();
             p.Points = LineSimp(PolygonToPointColl(polygon));
 
            
@@ -409,6 +418,48 @@ namespace Project2
             }
 
             return points;
+        }
+
+        private void submit_Click(object sender, RoutedEventArgs e)
+        {
+            reaload();
+        }
+        private void reaload()
+        {
+            viewport = new Viewport3D();
+            canvas.Width = 1000;
+            canvas.Height = 1000;
+            canvas.Children.Clear();
+            DrawCanvas();
+        }
+
+        private void SliderZ_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {    
+            SliderZ.IsEnabled = false;
+            reaload();
+            SliderZ.IsEnabled = true;
+
+        }
+
+        private void SliderY_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SliderY.IsEnabled = false;
+            reaload();
+            SliderY.IsEnabled = true;
+        }
+
+        private void SliderX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            SliderX.IsEnabled = false;
+            reaload();
+            SliderX.IsEnabled = true;
+        }
+
+        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            slider.IsEnabled = false;
+            reaload();
+            slider.IsEnabled = true;
         }
     }
 }
