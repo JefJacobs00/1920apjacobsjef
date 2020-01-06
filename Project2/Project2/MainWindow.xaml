@@ -7,6 +7,44 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1065" Width="1666.775">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1397*"/>
+            <ColumnDefinition Width="262*"/>
+        </Grid.ColumnDefinitions>
         <Canvas Name ="canvas" HorizontalAlignment="Left" Height="1014" Margin="10,10,0,0" VerticalAlignment="Top" Width="1207"/>
+        <Viewport3D Name="myViewport" Margin="0,0,10,0" Grid.ColumnSpan="2" >
+
+            <!-- Add a camera. -->
+
+
+            <!-- Add models. -->
+            <Viewport3D.Children>
+
+                <ModelVisual3D>
+                    <ModelVisual3D.Content>
+
+                        <Model3DGroup >
+                            <Model3DGroup.Children>
+
+                                <!-- Lights, MeshGeometry3D and DiffuseMaterial objects are added to the ModelVisual3D. -->
+                                <DirectionalLight Color="#FFFFFFFF" Direction="-3,-4,-5" />
+
+                                <!-- Define a red cone. -->
+
+                            </Model3DGroup.Children>
+                        </Model3DGroup>
+
+                    </ModelVisual3D.Content>
+
+                </ModelVisual3D>
+
+            </Viewport3D.Children>
+
+        </Viewport3D>
+        <ComboBox HorizontalAlignment="Left" Height="32" Margin="1358,170,0,0" VerticalAlignment="Top" Width="260" Grid.ColumnSpan="2"/>
+        <Label Content="Label" HorizontalAlignment="Left" Height="32" Margin="1196,170,0,0" VerticalAlignment="Top" Width="136"/>
+        <Label Content="Label" HorizontalAlignment="Left" Height="32" Margin="1196,236,0,0" VerticalAlignment="Top" Width="136"/>
+        <ComboBox HorizontalAlignment="Left" Height="32" Margin="1358,236,0,0" VerticalAlignment="Top" Width="260" Grid.ColumnSpan="2"/>
+        <Button Content="Button" Grid.Column="1" HorizontalAlignment="Left" Margin="45,330,0,0" VerticalAlignment="Top" Width="176" Height="38"/>
     </Grid>
 </Window>
