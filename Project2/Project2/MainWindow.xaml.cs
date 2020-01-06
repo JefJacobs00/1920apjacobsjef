@@ -208,7 +208,7 @@ namespace Project2
             DirectionalLight myDirLight = new DirectionalLight();
 
             myDirLight.Color = Colors.White;
-            myDirLight.Direction = new Vector3D(-0.612372, -0.5, -0.612372);
+            myDirLight.Direction = new Vector3D(-1, -1, -2);
 
             viewport.Children.Add(new ModelVisual3D() { Content = myDirLight });
 
