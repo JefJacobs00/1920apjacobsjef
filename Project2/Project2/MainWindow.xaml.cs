@@ -298,7 +298,7 @@ namespace Project2
 
         private void FindTopLeft(GeoJSON.Net.Geometry.Polygon pol)
         {
-            
+            //Het punt vinden waarmee de figuur moet worden verschoven
             foreach (var lineString in pol.Coordinates)
             {
                 for (int i = 0; i < lineString.Coordinates.Count; i++)
@@ -321,6 +321,7 @@ namespace Project2
             int teller = 0;
             foreach (var lineString in pol.Coordinates)
             {
+                //Grootste linestring nemen
                 if (teller == 1) break;
                 teller++;
                 for (int i = 0; i < lineString.Coordinates.Count; i++)
