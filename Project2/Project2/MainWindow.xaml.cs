@@ -216,9 +216,9 @@ namespace Project2
             }
             catch (Exception)
             {
-                myDirLight.Direction = new Vector3D(-1 ,-1, -2);
+                myDirLight.Direction = new Vector3D(-1, -1, -2);
             }
-            
+
 
             viewport.Children.Add(new ModelVisual3D() { Content = myDirLight });
 
