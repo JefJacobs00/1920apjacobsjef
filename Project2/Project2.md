@@ -38,7 +38,16 @@ Voor de 3D figuur heb ik voor eigeschap van de hoogte het aantal inwoners per pr
 Ik ga in de line simplification aanpassen en de licht inval. 
 
 ## line simplification
+|                           |   Minimum         |        Medium            |        Maximum    |
+|---------------------------|-------------------|--------------------------|--------------------|
+|Line simplification        |  ![](Pictures/LineSimp2.5.png) | ![](Pictures/LineSimphelft.png) | ![](Pictures/LineSimpfull.png) |
 
+Bij minimum is de line simplification gezet op 2.5 dwz. alle punten die binnen een afstand van 2.5 van lijn liggen worden weg gelaten.
+Bij medium is het op 3.75 gezet hier zie je nog geen enorm verschil maar toch een klein verschil. 
+Bij maximum is er de vorm van de meeste provinties behouden behalve bij brussel dit is volledig vervormd.
+
+Hoe groter de line simplification hoe groter de gaten tussen de provinties aangezien deze niet meer passen zoals puzzelstukken. je kan bij minimum een klein gaatje zien tussen Vlaams en Waals-Braband
+Bij maximum is dit al een groot gat. Er zijn nog gaten maar die zijn niet zichtbaar in 3D.
 
 # conclusie
  Dit was een enorm leerijk project waarin veel wiskundige bewerkingen in gebruikt zijn, ik heb veel geleerd uit dit project zoals kaart projecties,geojson,3D,polygon triangulation .
@@ -53,10 +62,4 @@ Ik ga in de line simplification aanpassen en de licht inval.
 | 3 | Wikipedia | [Ramer–Douglas–Peucker algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm) |
 | 4 | Wikipedia | [Merkator projection](https://en.wikipedia.org/wiki/Mercator_projection) |
 | 5 | Wikipedia | [Vertex(goemetry)](https://en.wikipedia.org/wiki/Vertex_(geometry)) |
-
-
-
-
-
- 
  
