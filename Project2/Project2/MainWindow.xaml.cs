@@ -421,10 +421,7 @@ namespace Project2
             return points;
         }
 
-        private void submit_Click(object sender, RoutedEventArgs e)
-        {
-            reaload();
-        }
+
         private void reaload()
         {
             viewport = new Viewport3D();
@@ -439,6 +436,15 @@ namespace Project2
             SliderZ.IsEnabled = false;
             reaload();
             SliderZ.IsEnabled = true;
+            try
+            {
+                labelZ.Content = SliderZ.Value;
+            }
+            catch (Exception)
+            {
+
+            }
+            
 
         }
 
@@ -446,14 +452,32 @@ namespace Project2
         {
             SliderY.IsEnabled = false;
             reaload();
+            
             SliderY.IsEnabled = true;
+            try
+            {
+                LabelY.Content = "" + SliderY.Value;
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void SliderX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SliderX.IsEnabled = false;
             reaload();
+            
             SliderX.IsEnabled = true;
+            try
+            {
+                labelX.Content = "" + SliderX.Value;
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

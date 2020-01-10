@@ -41,17 +41,14 @@
             </Viewport3D.Children>
 
         </Viewport3D>
-        <ComboBox HorizontalAlignment="Left" Height="32" Margin="1358,170,0,0" VerticalAlignment="Top" Width="260" Grid.ColumnSpan="2"/>
-        <Label Content="Label" HorizontalAlignment="Left" Height="32" Margin="1196,170,0,0" VerticalAlignment="Top" Width="136"/>
         <Label Content="Line Simplification" HorizontalAlignment="Left" Height="32" Margin="1196,236,0,0" VerticalAlignment="Top" Width="136"/>
-        <Button x:Name="submit" Content="Button" Grid.Column="1" HorizontalAlignment="Left" Margin="45,553,0,0" VerticalAlignment="Top" Width="176" Height="38" Click="submit_Click"/>
         <Slider x:Name="slider" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="32" Margin="1358,236,0,0" VerticalAlignment="Top" Width="260" Minimum="2.5" Maximum="8" ValueChanged="slider_ValueChanged" LargeChange="0.5"/>
         <Slider x:Name="SliderZ" HorizontalAlignment="Left" Height="29" Margin="1300,418,0,0" VerticalAlignment="Top" Width="110" Minimum="-4" Value="-2" ValueChanged="SliderZ_ValueChanged" Maximum="4" Grid.ColumnSpan="2"/>
         <Slider x:Name="SliderX" Margin="1300,347,249,658" Minimum="-4" ValueChanged="SliderX_ValueChanged" Maximum="4" TickFrequency="-1" Grid.ColumnSpan="2"/>
         <Slider x:Name="SliderY" HorizontalAlignment="Left" Height="29" Margin="1300,382,0,0" VerticalAlignment="Top" Width="110" Minimum="-4" Value="-1" ValueChanged="SliderY_ValueChanged" Maximum="4" Grid.ColumnSpan="2"/>
-        <Label Content="Z" Margin="1196,418,184,587" HorizontalAlignment="Center"/>
-        <Label Content="Y" Margin="1196,382,184,623" HorizontalAlignment="Center"/>
-        <Label Content="X" Margin="1196,342,184,663" HorizontalAlignment="Center"/>
+        <Label x:Name="labelZ" Content="Z" Margin="48,415,155,572" HorizontalAlignment="Center" Grid.Column="1" Width="59"/>
+        <Label x:Name="LabelY" Content="Y" Margin="48,382,155,619" HorizontalAlignment="Center" Grid.Column="1" Width="59"/>
+        <Label x:Name="labelX" Content="X" Margin="48,338,155,658" HorizontalAlignment="Center" Grid.Column="1" Width="59"/>
         <Label Content="Licht inval" HorizontalAlignment="Left" Height="31" Margin="1196,301,0,0" VerticalAlignment="Top" Width="198"/>
     </Grid>
 </Window>
