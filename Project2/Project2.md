@@ -41,7 +41,7 @@ Ik ga in de line simplification aanpassen en de licht inval.
 
 
 # conclusie
- Dit was een enorm leerijk project waarin veel wiskundige bewerkingen in gebruikt zijn, ik heb veel geleerd uit dit project.
+ Dit was een enorm leerijk project waarin veel wiskundige bewerkingen in gebruikt zijn, ik heb veel geleerd uit dit project zoals kaart projecties,geojson,3D,polygon triangulation .
  Ik vind dat ik dit project goed gemaakt heb. 3D was wat zoek werk maar is uiteindelijk toch wel mooi gelukt. Mijn project ontbreekt wel de mogelijkheid om de camera te bewegen. 
  
 
