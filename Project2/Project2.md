@@ -15,7 +15,7 @@ Het algorithme maakt een lijn tussen het eerste (P<sub>b</sub>)en laatste punt v
 Vervolgens zal er worden gekeken naar de punten tussen het P<sub>b</sub> en P als de punten binnen de maximum gezette afstand van de lijn liggen kunnen ze worden weg gelaten.
 als dit niet zo is wordt dit punt behouden. Als dit gedaan is het eerste punt een verder daan het vorige eerste punt. dit wordt herhaald tot alle punten zijn afgelopen.
 
-[](https://upload.wikimedia.org/wikipedia/commons/3/30/Douglas-Peucker_animated.gif)
+![](https://upload.wikimedia.org/wikipedia/commons/3/30/Douglas-Peucker_animated.gif)
 ## K-means clustering
 
 #### Werking
