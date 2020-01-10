@@ -25,7 +25,7 @@ Eerst wordt er na gegaan welke hoeken een convex zijn. Een ear kan alleen een co
 binnen de polygon ligt, dit kan bepaald worden door te kijken of er punten van de polygon binnen de gevormde driehoek ligt als dit niet het geval is dan is het geseleceerde punt een ear. 
 als dit het geval is dan mag deze hoek weg en heb je een driehoek met de ear en de twee buur punten.  Dit wordt herhaald tot er nog 3 punten over zijn.
 
-![](Pictures/polygon.png)
+![](https://git.ikdoeict.be/jef.jacobs/1920apjacobsjef/raw/master/Project2/pictures/Polygon.PNG)
 
 # Opbouw code
 
@@ -40,7 +40,8 @@ Ik ga in de line simplification aanpassen en de licht inval.
 ## line simplification
 |                           |   Minimum         |        Medium            |        Maximum    |
 |---------------------------|-------------------|--------------------------|--------------------|
-|Line simplification        |  ![](Pictures/LineSimp2.5.png) | ![](Pictures/LineSimphelft.png) | ![](Pictures/LineSimpfull.png) |
+|Line simplification        |  ![](https://git.ikdoeict.be/jef.jacobs/1920apjacobsjef/raw/master/Project2/pictures/LineSimp2.5.PNG) | ![](https://git.ikdoeict.be/jef.jacobs/1920apjacobsjef/raw/master/Project2/pictures/LineSimphelft.PNG) | ![](https://git.ikdoeict.be/jef.jacobs/1920apjacobsjef/raw/master/Project2/pictures/LineSimpFull.PNG
+) |
 
 Bij minimum is de line simplification gezet op 2.5 dwz. alle punten die binnen een afstand van 2.5 van lijn liggen worden weg gelaten.
 Bij medium is het op 3.75 gezet hier zie je nog geen enorm verschil maar toch een klein verschil. 
