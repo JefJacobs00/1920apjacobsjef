@@ -47,7 +47,7 @@ Ik ga in de line simplification aanpassen en de licht inval.
  | nummer          |  bron        | referentie|
 |-----------|------------------------|------------:|
 | 1 | Wikipedia | [GeoJSON draft version 6](http://wiki.geojson.org/GeoJSON_draft_version_6)   | 
-| 2 | researchgate | [polygon triangulation](https://www.researchgate.net/publication/311245887_Accurate_simple_and_efficient_triangulation_of_a_polygon_by_ear_removal_with_lowest_memory_consumption) | 
+| 2 | Researchgate | [polygon triangulation](https://www.researchgate.net/publication/311245887_Accurate_simple_and_efficient_triangulation_of_a_polygon_by_ear_removal_with_lowest_memory_consumption) | 
 | 3 | Wikipedia | [Ramer–Douglas–Peucker algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm) |
 | 4 | Wikipedia | [Merkator projection](https://en.wikipedia.org/wiki/Mercator_projection) |
 | 5 | Wikipedia | [Vertex(goemetry)](https://en.wikipedia.org/wiki/Vertex_(geometry)) |
