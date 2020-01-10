@@ -41,7 +41,9 @@ Ik ga in de line simplification aanpassen en de licht inval.
 
 
 # conclusie
-
+ Dit was een enorm leerijk project waarin veel wiskundige bewerkingen in gebruikt zijn, ik heb veel geleerd uit dit project.
+ Ik vind dat ik dit project goed gemaakt heb. 3D was wat zoek werk maar is uiteindelijk toch wel mooi gelukt. Mijn project ontbreekt wel de mogelijkheid om de camera te bewegen. 
+ 
 
 # referentie list
  | nummer          |  bron        | referentie|
